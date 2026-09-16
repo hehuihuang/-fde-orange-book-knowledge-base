@@ -14,7 +14,7 @@
 | 跟着做一个项目 | [完整交付 Playbook](knowledge-base/02-交付方法/01-从发现到运营的完整交付法.md) |
 | 学真实案例 | [海外案例索引](knowledge-base/03-海外案例/00-案例索引.md) |
 | 找开源工程材料 | [GitHub 精选仓库](knowledge-base/04-工程资源/01-GitHub精选仓库.md) |
-| 看中国社区实战 | [破局 FDE 点赞 Top 25 分类梳理](knowledge-base/07-中国社区实践/01-破局FDE点赞Top25分类梳理.md) |
+| 看中国社区实战 | [破局 FDE 点赞 Top 100 分类索引](knowledge-base/07-中国社区实践/02-破局FDE点赞Top100分类索引.md) · [Top 25专题](knowledge-base/07-中国社区实践/01-破局FDE点赞Top25分类梳理.md) |
 | 准备求职 | [岗位样本与能力矩阵](knowledge-base/05-职业发展/01-岗位样本与能力矩阵.md) |
 | 包装成数字产品 | [产品化与授权说明](knowledge-base/06-产品运营/01-产品化与更新机制.md) |
 | 直接拿表做事 | [模板目录](templates/README.md) |
