@@ -1,6 +1,6 @@
 # 公开来源台账
 
-访问日期统一为 2026 年 9 月 6 日。日期写“未标注”的页面仍可能在发布后更新。使用前建议重新打开原页。
+既有公开来源访问日期为 2026 年 9 月 6 日；破局社区 P01–P25 查询日期为 2026 年 9 月 16 日。日期写“未标注”的页面仍可能在发布后更新。使用前建议重新打开原页。
 
 ## 岗位与交付模式
 
@@ -63,3 +63,35 @@
 | X02 | [Speechmatics 招聘帖](https://x.com/Speechmatics/status/2030980311022985622) | 语音 AI 公司公开招聘 FDE | C |
 | X03 | [法律 AI 公司招聘信号](https://x.com/AndreaShuyuWang/status/2029996449136791919) | 法律 AI 初创公司同时招聘解决方案、客户成功与 FDE | C |
 | X04 | [OpenAI Forward Deployed Evals 从业者资料页](https://x.com/bfioca/with_replies) | FDE 内部分工开始出现 eval 专门化 | C |
+
+## 破局社区高赞主题（2026-09-16）
+
+以下仅支持社区观点、作者自述或自身活动安排，外链全文未读取。点赞来自官网列表快照，不能证明业务效果。详见 [分类梳理](../knowledge-base/07-中国社区实践/01-破局FDE点赞Top25分类梳理.md)。
+
+| ID | 主题 | 发布者 | 创建日期 | 等级及限制 |
+| --- | --- | --- | --- | --- |
+| P01 | [FDE 行动营立项调研](https://aipoju.com/topic-details/22255411124825821) | findyi | 2026-08-11 | C：社区陈述，非独立核验 |
+| P02 | [AI洞察37：FDE 与企业 AI 落地](https://aipoju.com/topic-details/14422142451251212) | findyi | 2026-07-21 | C：社区陈述，非独立核验 |
+| P03 | [AI洞察39：从个人经验到 AI 生产系统](https://aipoju.com/topic-details/82255158222225822) | findyi | 2026-08-14 | C：社区陈述，非独立核验 |
+| P04 | [AI洞察38：训练能交付的 AI 员工](https://aipoju.com/topic-details/55522441822825484) | findyi | 2026-07-29 | C：社区陈述，非独立核验 |
+| P05 | [AI洞察36：AI 企业服务的三层定位](https://aipoju.com/topic-details/45544282214441288) | findyi | 2026-07-16 | C：社区陈述，非独立核验 |
+| P06 | [从追工具到系统化、产品化](https://aipoju.com/topic-details/45544228841514818) | findyi | 2026-07-28 | C：社区陈述，非独立核验 |
+| P07 | [企业分享经历与体系化学习](https://aipoju.com/topic-details/45548858885218488) | findyi | 2026-08-27 | C：社区陈述，非独立核验 |
+| P08 | [部署 Obsidian + Claude Code 知识库](https://aipoju.com/topic-details/22258842455154411) | 攀登者 | 2026-09-03 | C：社区陈述，非独立核验 |
+| P09 | [BSS 共创办公中心计划](https://aipoju.com/topic-details/22258828551255241) | findyi | 2026-08-26 | C：社区陈述，非独立核验 |
+| P10 | [第十二期行动营与系统化能力](https://aipoju.com/topic-details/82258841825852242) | findyi | 2026-09-08 | C：社区陈述，非独立核验 |
+| P11 | [Skill 商城和 CLI 内测开启](https://aipoju.com/topic-details/22258842558454481) | 文辉 | 2026-09-02 | C：社区陈述，非独立核验 |
+| P12 | [人、Agent、AI 团队与 FDE 的关系](https://aipoju.com/topic-details/82258825552818552) | 晓君@AI破局 | 2026-08-24 | C：社区陈述，非独立核验 |
+| P13 | [50 万+业绩背后的企业服务踩坑](https://aipoju.com/topic-details/45544225211444288) | 小林 | 2026-08-01 | C：社区陈述，非独立核验 |
+| P14 | [从超级个体到超级组织：直播复盘](https://aipoju.com/topic-details/45544212142488488) | 栋哥 | 2026-08-08 | C：社区陈述，非独立核验 |
+| P15 | [FDE 在企业 AI 落地的碰撞、方法与案例](https://aipoju.com/topic-details/14425558442428542) | 潘达 | 2026-08-23 | C：社区陈述，非独立核验 |
+| P16 | [两个进行中的 FDE 项目：网店与电子厂](https://aipoju.com/topic-details/14425511224421222) | 伍哥_广州 | 2026-09-04 | C：社区陈述，非独立核验 |
+| P17 | [企业级六位数 FDE 商单详解](https://aipoju.com/topic-details/55521154242142554) | 小林 | 2026-08-31 | C：社区陈述，非独立核验 |
+| P18 | [第十二期行动教练与志愿者招募](https://aipoju.com/topic-details/14422822584224882) | 果果｜竹子助理(10:00-20:00) | 2026-08-12 | A：自身活动；C：效果与观点 |
+| P19 | [破局新人使用地图](https://aipoju.com/topic-details/82811422125448852) | 竹子助理(10:00-20:00) | 2026-03-24 | A：自身活动；C：效果与观点 |
+| P20 | [消费品行业 FDE：AI 与人的现场磨合](https://aipoju.com/topic-details/22258881525444581) | 潘达 | 2026-08-22 | C：社区陈述，非独立核验 |
+| P21 | [从 AI 聊天到业务工作系统](https://aipoju.com/topic-details/82258881525544422) | 王庆 | 2026-08-21 | C：社区陈述，非独立核验 |
+| P22 | [30 天五金厂 FDE 交付日记](https://aipoju.com/topic-details/45548852824524448) | 一只阿木木 | 2026-09-01 | C：社区陈述，非独立核验 |
+| P23 | [赏金猎人015：FDE 与企业服务实战征集](https://aipoju.com/topic-details/45548882114558418) | findyi | 2026-08-21 | A：自身活动；C：效果与观点 |
+| P24 | [FDE 行动营拆解与学习边界](https://aipoju.com/topic-details/22258841241152241) | 小林 | 2026-09-08 | C：社区陈述，非独立核验 |
+| P25 | [实测十个 Skill：把经验变成工具](https://aipoju.com/topic-details/55521154281822454) | 王庆 | 2026-08-31 | C：社区陈述，非独立核验 |
