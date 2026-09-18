@@ -1,5 +1,28 @@
 # 公开来源台账
 
+## 图书重编增补　2026-09-17 核验，2026-09-18 发布
+
+原有台账继续保留。新版基础章节是本书方法建议，案例的企业结果与教学设计分别标注。官方客户故事说明来源直接，不等于独立效果审计。
+
+| ID | 来源 | 用途与限制 | 等级 |
+| --- | --- | --- | --- |
+| E01 | [Datawhale FDE100 案例](https://fde100.datawhale.cn/cases) | 本次可见 24 条案例，不把品牌名称中的 100 当作已公开篇数 | C |
+| E02 | [制造业培训实践](https://fde100.datawhale.cn/cases/cases-009) | 培训平台、知识检索和陪跑；节时为案例自述，样本未完整披露 | C |
+| E03 | [工业物料实践](https://fde100.datawhale.cn/cases/cases-024) | ERP 清理与检索，没有最终节省金额，不补写 ROI | C |
+| E04 | [范冰的公开 FDE 指南](https://github.com/xdash/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer) | 按章阅读参考与推荐原作；商业改编需作者书面许可，本项目不复制正文 | C |
+| E05 | [Palantir AIP 入门](https://www.palantir.com/docs/foundry/aip/getting-started-with-aip) | 官方用例界定及工作流课程入口，账号与开放条件以官网为准 | A |
+| E06 | [Hugging Face Agents Course](https://huggingface.co/learn/agents-course/unit0/introduction) | Agent 概念、框架、实践与评测，课程完成不等于生产交付能力 | A |
+| E07 | [DeepLearning.AI 评测课程](https://www.deeplearning.ai/courses/evaluating-ai-agents) | 官方搜索结果核验课程与 Arize 合作；覆盖监控、组件评测与实验，费用不作固定承诺 | A |
+| E08 | [Anthropic 工作流与 Agent](https://www.anthropic.com/engineering/building-effective-agents) | 概念与简单架构原则；原文提示工具生态已变化，不复制旧版本实现 | A |
+| E09 | [Anthropic Contextual Retrieval](https://www.anthropic.com/engineering/contextual-retrieval) | 检索过程与片段背景，本书不将实验结果泛化为通用提升幅度 | A |
+| E10 | [MCP 架构](https://modelcontextprotocol.io/docs/learn/architecture) | 宿主、客户端、服务器及能力交换；实施需核对当前协议版本 | A |
+| E11 | [Google SRE 监控](https://sre.google/sre-book/monitoring-distributed-systems/) | 服务监控原则，本书另行建议任务质量指标 | A |
+| E12 | [OWASP 大模型风险项目](https://owasp.org/www-project-top-10-for-large-language-model-applications/) | 安全检查参考，不代替具体组织审查 | A |
+| E13 | [Arize Agent 评测文档](https://arize.com/docs/ax/learn/evaluation-concepts/agent-evaluation) | 组件与过程评测入口 | A |
+| E14 | [Speechmatics X 招聘帖](https://x.com/Speechmatics/status/2030980311022985622) | 仅证明曾发布岗位线索，不证明职位仍开放、薪酬与行业规模 | C |
+
+新版海外案例重新打开 C02、C05–C12 页面核对，正文只保留必要结果及流程概述。Datawhale cases-015 的顶部摘要与正文不一致，未纳入新版案例。社区审核徽记不表述为独立审计。
+
 既有公开来源访问日期为 2026 年 9 月 6 日；破局社区 P01–P25 查询日期为 2026 年 9 月 16 日。日期写“未标注”的页面仍可能在发布后更新。使用前建议重新打开原页。
 
 ## 岗位与交付模式

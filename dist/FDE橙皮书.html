@@ -1,0 +1,1321 @@
+<!doctype html>
+<!--
+设计假设：面向具备一点技术基础的企业 AI 交付学习者。暖色长文阅读，书籍而非营销站。
+系统依据：design/brand-spec.md。章节取自 book/book.json 与独立 Markdown。
+方向比较：纸本橙 / 赤陶 / 麦纸。PDF 使用固定纸本方案，阅读主题不改变内容。
+没有虚构指标或外部分析服务。字体使用仓库已有开源字体。可在本地直接打开。
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FDE橙皮书 · 从业务现场到 AI 系统交付</title>
+<style>
+@font-face{font-family:Book;src:url('../fonts/NotoSansSC.ttf') format('truetype');font-weight:100 900;font-display:swap}
+:root{--brand-primary:#C2410C;--brand-paper:#FFFBEB;--brand-ink:#292524;--brand-muted:#57534E;--brand-line:#D6D3D1;--brand-cover:#C2410C;--brand-white:#FFFEF8;--text:18px}
+*{box-sizing:border-box}body{margin:0;background:var(--brand-paper);color:var(--brand-ink);font-family:Book,'Noto Sans SC','PingFang SC',sans-serif;line-height:1.9}body[data-theme=terra]{--brand-paper:#FFF7ED;--brand-cover:#9A3412}body[data-theme=wheat]{--brand-paper:#FEF3C7;--brand-cover:#78350F}
+a{color:var(--brand-primary);text-decoration-thickness:1px;text-underline-offset:4px}a:hover{text-decoration:underline}button,select{font:inherit;font-size:13px;color:var(--brand-ink);background:var(--brand-paper);border:1px solid var(--brand-line);padding:8px 12px;min-height:44px;cursor:pointer}button:hover{border-color:var(--brand-primary)}:focus-visible{outline:2px solid var(--brand-primary);outline-offset:3px}.skip{position:fixed;top:-100px;z-index:10;background:var(--brand-paper);padding:10px}.skip:focus{top:0}
+.sidebar{position:fixed;inset:0 auto 0 0;width:292px;overflow-y:auto;border-right:1px solid var(--brand-line);padding:30px 22px 45px;background:var(--brand-paper);z-index:3}.wordmark{font-size:22px;letter-spacing:1px;font-weight:800;color:var(--brand-ink);text-decoration:none}.sidebar .sub{font-size:11px;color:var(--brand-muted);letter-spacing:1px;margin:1px 0 24px}.sidebar h2{font-size:12px;color:var(--brand-muted);font-weight:500;letter-spacing:1px;margin:27px 0 8px}.sidebar nav>a{display:flex;gap:11px;padding:8px 5px;line-height:1.6;font-size:13px;color:var(--brand-ink);text-decoration:none;min-height:38px}.sidebar nav>a span{font-size:11px;color:var(--brand-primary);padding-top:2px;font-variant-numeric:tabular-nums;min-width:18px}.sidebar nav>a:hover,.sidebar nav>a[aria-current=page]{color:var(--brand-primary);background:color-mix(in srgb,var(--brand-primary) 7%,transparent)}
+.toolbar{position:sticky;top:0;z-index:2;margin-left:292px;border-bottom:1px solid var(--brand-line);background:var(--brand-paper);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 32px}.toolbar .tools{display:flex;gap:9px;align-items:center}.download{font-size:13px;font-weight:600;white-space:nowrap}.menu{display:none}main{margin-left:292px;padding:45px 6vw 80px;min-height:100vh}#home{max-width:900px;margin:auto}.cover{background:var(--brand-cover);color:var(--brand-paper);padding:45px 48px;min-height:530px;position:relative}.cover .kicker{font-size:11px;letter-spacing:2px}.cover .fde{font-size:110px;font-weight:800;line-height:1.1;letter-spacing:-5px;margin:33px 0 0}.cover h1{font-size:47px;line-height:1.4;margin:0 0 27px;font-weight:700;letter-spacing:4px}.cover .subtitle{border-top:1px solid currentColor;padding-top:20px;font-size:21px}.cover .edition{font-size:12px;margin-top:49px;display:flex;justify-content:space-between;gap:16px}.intro{padding:30px 0 35px;max-width:680px}.intro p{font-size:16px}.read-links{display:flex;gap:26px;font-size:15px}.section-label{font-size:13px;color:var(--brand-primary);letter-spacing:2px;margin-top:20px}.toc-part{padding:20px 0;border-top:1px solid var(--brand-line)}.toc-part h2{font-size:23px;margin:5px 0}.toc-part p{font-size:14px;color:var(--brand-muted)}.toc-part ol{list-style:none;padding:0;margin:18px 0}.toc-part li a{display:flex;gap:20px;padding:9px 0;text-decoration:none;color:var(--brand-ink);font-size:16px}.toc-part li a:hover{color:var(--brand-primary)}.toc-part li span{color:var(--brand-primary);font-size:12px;min-width:22px;padding-top:4px}
+article{max-width:750px;margin:0 auto;font-size:var(--text);line-height:1.95}article h1{font-size:34px;line-height:1.5;color:var(--brand-primary);font-weight:700;margin:8px 0 33px;text-wrap:balance}article h2{font-size:23px;line-height:1.6;margin:38px 0 14px;text-wrap:balance}article p{text-wrap:pretty;margin:0 0 20px}article li{margin:8px 0}article .eyebrow{font-size:12px;letter-spacing:1px;color:var(--brand-muted);margin-bottom:13px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.8;margin:27px 0;table-layout:fixed}th,td{text-align:left;vertical-align:top;padding:13px 12px;border-bottom:1px solid var(--brand-line);overflow-wrap:anywhere}th{color:var(--brand-primary);background:color-mix(in srgb,var(--brand-primary) 5%,transparent)}.chapter-nav{margin-top:50px;padding-top:24px;border-top:1px solid var(--brand-line);display:flex;justify-content:space-between;font-size:14px}.foot{max-width:750px;margin:55px auto 0;font-size:12px;color:var(--brand-muted);border-top:1px solid var(--brand-line);padding-top:15px}[hidden]{display:none!important}
+@media(min-width:1450px){main{padding-left:10vw;padding-right:10vw}.cover{padding:55px 60px;min-height:590px}.cover .fde{font-size:128px}}
+@media(max-width:950px){.sidebar{width:250px}.toolbar,main{margin-left:250px}.toolbar{padding:10px 20px}main{padding:30px}.cover{padding:34px;min-height:490px}.cover .fde{font-size:94px}.cover h1{font-size:40px}.cover .subtitle{font-size:18px}}
+@media(max-width:720px){.sidebar{display:none;width:min(88vw,340px);box-shadow:10px 0 35px #29252422;top:67px}.sidebar.open{display:block}.toolbar,main{margin-left:0}.toolbar{padding:10px 14px}.menu{display:block}.toolbar .tools{gap:6px}.toolbar label{display:none}select{max-width:90px}main{padding:22px 20px 55px}.cover{padding:30px 26px;min-height:490px}.cover .fde{font-size:92px}.cover h1{font-size:39px}.cover .subtitle{font-size:17px}.cover .edition{font-size:11px;flex-wrap:wrap}.intro{padding:25px 0}article{font-size:17px}article h1{font-size:28px}article h2{font-size:21px}table{font-size:12px}th,td{padding:10px 7px}.toc-part h2{font-size:21px}.toc-part li a{font-size:15px;gap:12px}}
+@media print{.sidebar,.toolbar,.chapter-nav,.foot{display:none}main{margin:0;padding:0}article{display:block!important;page-break-before:always;font-size:11pt}.cover{page-break-after:always}body{background:white;color:#292524}}
+</style></head><body><a class="skip" href="#content">跳到正文</a>
+<aside class="sidebar" id="sidebar"><a class="wordmark" href="#home">FDE橙皮书</a><p class="sub">从业务现场到 AI 系统交付</p><nav aria-label="全书目录"><a href="#home" class="home-link">封面与总目录</a><a href="#reading">阅读说明</a><h2>第一篇　认识 FDE</h2><a href="#ch-01"><span>01</span>FDE 的工作与责任</a><a href="#ch-02"><span>02</span>用业务流程理解问题</a><a href="#ch-03"><span>03</span>价值指标与成本</a><a href="#ch-04"><span>04</span>能力地图与协作边界</a><h2>第二篇　技术基础</h2><a href="#ch-05"><span>05</span>大模型与上下文</a><a href="#ch-06"><span>06</span>数据、接口与业务对象</a><a href="#ch-07"><span>07</span>RAG 与企业知识</a><a href="#ch-08"><span>08</span>工作流、Agent 与 MCP</a><a href="#ch-09"><span>09</span>评测与错误分析</a><a href="#ch-10"><span>10</span>权限、安全与人工控制</a><h2>第三篇　交付实务</h2><a href="#ch-11"><span>11</span>需求发现与现场访谈</a><a href="#ch-12"><span>12</span>范围与验收约定</a><a href="#ch-13"><span>13</span>原型与受控试点</a><a href="#ch-14"><span>14</span>生产发布与回退</a><a href="#ch-15"><span>15</span>可观测性与故障处理</a><a href="#ch-16"><span>16</span>用户采用与运营交接</a><a href="#ch-17"><span>17</span>团队组织与复用</a><a href="#ch-18"><span>18</span>学习路线与作品集</a><h2>第四篇　案例拆解</h2><a href="#ch-19"><span>19</span>Airbus，让数据进入维修决策</a><a href="#ch-20"><span>20</span>Tampa General，医院运营协同</a><a href="#ch-21"><span>21</span>Morgan Stanley，把评测放进开发</a><a href="#ch-22"><span>22</span>BBVA，从试用走向组织采用</a><a href="#ch-23"><span>23</span>TIME，在固定期限内交付</a><a href="#ch-24"><span>24</span>GitLab，区分产品与内部应用</a><a href="#ch-25"><span>25</span>Assembled，客服系统的韧性</a><a href="#ch-26"><span>26</span>Klarna，自动化指标的边界</a><a href="#ch-27"><span>27</span>Datawhale，从具体业务开始</a></nav></aside>
+<header class="toolbar"><button class="menu" aria-controls="sidebar" aria-expanded="false">目录</button><a class="download" href="FDE橙皮书.pdf" download>下载整本 PDF ↓</a><div class="tools"><label for="theme">阅读纸色</label><select id="theme" aria-label="阅读纸色"><option value="paper">纸本橙</option><option value="terra">赤陶</option><option value="wheat">麦纸</option></select><button id="font" aria-label="切换正文字号">字号 A+</button></div></header>
+<main id="content" tabindex="-1"><div id="home"><section class="cover" aria-label="FDE橙皮书封面"><div class="kicker">FORWARD DEPLOYED ENGINEERING</div><div class="fde">FDE</div><h1>橙皮书</h1><div class="subtitle">从业务现场到 AI 系统交付</div><div class="edition"><span>重编版 3.0 · 27 章</span><span>2026-09-18</span></div></section><section class="intro"><p>一本按顺序读的 FDE 实践书。先建立基础知识与交付方法，再通过海外企业和中文实践社区的案例，理解真实项目中的数据、判断与取舍。</p><div class="read-links"><a href="#reading">阅读说明 →</a><a href="#ch-01">从第一章开始 →</a></div></section><p class="section-label">CONTENTS / 全书目录</p><section class="toc-part"><h2>第一篇　认识 FDE</h2><p>先理解工作与责任，再判断什么问题值得解决。</p><ol><li><a href="#ch-01"><span>01</span>FDE 的工作与责任</a></li><li><a href="#ch-02"><span>02</span>用业务流程理解问题</a></li><li><a href="#ch-03"><span>03</span>价值指标与成本</a></li><li><a href="#ch-04"><span>04</span>能力地图与协作边界</a></li></ol></section><section class="toc-part"><h2>第二篇　技术基础</h2><p>把模型、数据与工具放进可以验证的系统。</p><ol><li><a href="#ch-05"><span>05</span>大模型与上下文</a></li><li><a href="#ch-06"><span>06</span>数据、接口与业务对象</a></li><li><a href="#ch-07"><span>07</span>RAG 与企业知识</a></li><li><a href="#ch-08"><span>08</span>工作流、Agent 与 MCP</a></li><li><a href="#ch-09"><span>09</span>评测与错误分析</a></li><li><a href="#ch-10"><span>10</span>权限、安全与人工控制</a></li></ol></section><section class="toc-part"><h2>第三篇　交付实务</h2><p>从现场观察到生产运行，把结果交到能够继续维护的人手里。</p><ol><li><a href="#ch-11"><span>11</span>需求发现与现场访谈</a></li><li><a href="#ch-12"><span>12</span>范围与验收约定</a></li><li><a href="#ch-13"><span>13</span>原型与受控试点</a></li><li><a href="#ch-14"><span>14</span>生产发布与回退</a></li><li><a href="#ch-15"><span>15</span>可观测性与故障处理</a></li><li><a href="#ch-16"><span>16</span>用户采用与运营交接</a></li><li><a href="#ch-17"><span>17</span>团队组织与复用</a></li><li><a href="#ch-18"><span>18</span>学习路线与作品集</a></li></ol></section><section class="toc-part"><h2>第四篇　案例拆解</h2><p>用公开事实检查方法，保留分析边界与未知项。</p><ol><li><a href="#ch-19"><span>19</span>Airbus，让数据进入维修决策</a></li><li><a href="#ch-20"><span>20</span>Tampa General，医院运营协同</a></li><li><a href="#ch-21"><span>21</span>Morgan Stanley，把评测放进开发</a></li><li><a href="#ch-22"><span>22</span>BBVA，从试用走向组织采用</a></li><li><a href="#ch-23"><span>23</span>TIME，在固定期限内交付</a></li><li><a href="#ch-24"><span>24</span>GitLab，区分产品与内部应用</a></li><li><a href="#ch-25"><span>25</span>Assembled，客服系统的韧性</a></li><li><a href="#ch-26"><span>26</span>Klarna，自动化指标的边界</a></li><li><a href="#ch-27"><span>27</span>Datawhale，从具体业务开始</a></li></ol></section></div><article id="reading" hidden><h1>阅读说明</h1>
+<p>企业购买了模型服务，项目仍有很多事情要做。业务人员的任务要重新梳理，散落在系统里的资料要能被正确调用，模型给出的结果要有人验收，出错以后还得有办法继续工作。FDE 的工作就在这些具体环节里。</p>
+<p>本书把 FDE 译为前线部署工程师，英文为 Forward Deployed Engineer。不同公司的岗位名称和职责并不完全一致。本书用它指代一种靠近客户业务、参与构建并持续对交付结果负责的工程工作方式。</p>
+<p>这次编写重新核对了企业官方案例、工程文档、公开培训课程和 Datawhale 的实践材料。事实能够支持到哪里，案例就写到哪里。没有公开的团队人数、架构细节和经济结果，不用推测补齐。</p>
+<h2>怎样读这本书</h2>
+<p>全书分为四篇。第一篇建立岗位与业务认知，第二篇解释技术基础，第三篇沿着项目推进学习交付方法，第四篇用真实案例检查前面的方法。第一次阅读建议顺序读完前三篇，再挑选自己行业的案例。</p>
+<p>有工程经验的读者可以重点读第 2、3、11、12、16、17 章。业务负责人可以先读第一篇，再读需求发现、范围、采用与交接。刚接触 AI 的读者应把第二篇的术语和流程图读熟，不必一次学会所有工具。</p>
+<p>每章提出一个具体问题，解释必要概念，给出可以执行的工作方法，并留下一项练习或交付物。练习属于本书设计的教学任务，不代表任何公司的真实内部流程，也不构成医疗、金融、法律或安全合规建议。</p>
+<h2>怎样读案例</h2>
+<p>本书用 A、B、C、D 区分材料性质。A 为企业官方资料或正式文件，B 为有编辑核验的媒体报道，C 为社区或社交平台自述，D 为本书的分析与教学设计。A 表示来源直接，不表示结果经过独立审计。</p>
+<p>案例的价值在于让读者看见工程问题怎样与业务相连。采用人数、节省时间、自动化率各有统计范围。它们不能相互替代，也不能直接换算成收益或岗位减少。特别是供应商发布的成功故事，应当连同其未披露的信息一起阅读。</p>
+<h2>关于版本与资料</h2>
+<p>新版书名统一为《FDE橙皮书》，副标题为《从业务现场到 AI 系统交付》。章节 Markdown 是内容来源，PDF 和阅读版从同一份章节生成。旧书稿和研究文件保留用于追溯，不再充当主目录。</p>
+<p>参考范冰的公开 FDE 指南时，本书仅学习按章阅读和整本下载的组织方式，不复制其正文。国内案例保留 Datawhale 原始链接。推荐课程不构成培训机构背书，完成课程也不等同于具备生产交付能力。</p>
+</article><article id="ch-01" hidden><p class="eyebrow">第一篇　认识 FDE</p><h1>第 1 章　FDE 的工作与责任</h1>
+<p>一个 AI 项目会经过很多人。业务负责人提出目标，采购购买服务，工程师接入模型，安全团队检查数据去向，一线人员决定是否继续使用。FDE 要让这些工作在同一个项目里接得上。</p>
+<h2>从工作边界理解岗位</h2>
+<p>FDE 通常参与问题发现、方案设计、系统构建和生产交付。能否写代码很重要，但单凭编码能力无法定义这个岗位。判断一份工作是否具备 FDE 特征，更有用的办法是看工程师能否接触真实用户，能否改变不合理的方案，以及上线后是否继续跟踪结果。</p>
+<p>售前工程师可能在签约前完成技术验证；实施团队可能把成熟产品配置到客户环境；产品工程师可能持续维护一个模块。这些工作都有价值，也可能与 FDE 重叠。职责名称由公司决定。项目开始时，应确认发现、构建、验收和运营分别由谁负责。</p>
+<table>
+<thead>
+<tr>
+<th>工作问题</th>
+<th>FDE 需要留下的结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户到底在做什么</td>
+<td>可核对的任务记录与现状流程</td>
+</tr>
+<tr>
+<td>做到什么算有效</td>
+<td>基线、目标与不可恶化指标</td>
+</tr>
+<tr>
+<td>怎样接入客户系统</td>
+<td>数据、权限、接口与失败处理方案</td>
+</tr>
+<tr>
+<td>谁接着维护</td>
+<td>明确的业务负责人和技术负责人</td>
+</tr>
+</tbody>
+</table>
+<h2>靠近现场的工程判断</h2>
+<p>企业的制度文件会告诉你流程应该怎样运行，系统接口会告诉你数据怎样流动。现场观察还会暴露另一部分工作。有人靠本地表格修正编码，有人凭经验判断异常。每天复制同一段文字，也可能占去不少时间。这些动作解释了为什么已有软件仍然没能解决问题。</p>
+<p>工程师接近现场以后，可以更早判断哪些步骤值得自动化。规则已经清楚、输入也结构化的任务，可以先用普通程序。需要理解材料、总结证据或处理模糊语言的环节，再评估模型。能够说清楚为什么不用模型，也是 FDE 的技术判断。</p>
+<h2>交付责任需要边界</h2>
+<p>对结果负责不等于一个人承担全部责任。医院的临床决策仍由获授权人员作出，退款权限仍受客户政策约束。FDE 应把权限和责任写入系统，不能接受「让 AI 自己决定」这样没有边界的要求。</p>
+<p>项目结束时，除了能工作的应用，还应留下评测集、运行记录、操作说明和维护人。工程师离开后，客户能够继续处理常见问题，才说明交接完整。</p>
+<h2>本章练习</h2>
+<p>找一份公开 FDE 招聘说明，分别标记发现、编码、客户协作、上线和产品反馈五类职责。再写下它没有说明的内容，例如出差、值班、项目并行数或维护周期。把未知项变成面试问题，不根据岗位名称猜测。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-sf-san-francisco/">OpenAI 的 FDE 职责</a></li>
+<li><a href="https://www.palantir.com/docs/foundry/getting-started/overview">Palantir 的平台入门与工程协作</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#reading">← 上一章</a><a href="#ch-02">下一章 →</a></nav></article><article id="ch-02" hidden><p class="eyebrow">第一篇　认识 FDE</p><h1>第 2 章　用业务流程理解问题</h1>
+<p>「做一个客服 Agent」已经包含了方案，却没有解释为什么要做。开始构建以前，先把客户正在处理的任务写出来。这样才能比较 AI、普通自动化和流程调整三种办法。</p>
+<h2>一项任务的完整描述</h2>
+<p>任务从一个触发事件开始。用户收到咨询、订单进入异常状态、设备发出告警，都可能触发后续工作。随后有人读取信息，作出判断，调用系统，再把结果交给下一位参与者。</p>
+<p>记录流程时，至少写清触发条件、参与角色、输入资料、判断规则和最终输出。还要记录失败后的处理办法。只画成功路径，会漏掉最消耗人工的部分。</p>
+<table>
+<thead>
+<tr>
+<th>要观察的地方</th>
+<th>要留下的证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>等待</td>
+<td>等谁、等什么、等待起止时间</td>
+</tr>
+<tr>
+<td>重复录入</td>
+<td>相同字段出现在哪些系统</td>
+</tr>
+<tr>
+<td>人工判断</td>
+<td>判断依赖什么信息与经验</td>
+</tr>
+<tr>
+<td>返工</td>
+<td>错误何时被发现、由谁修正</td>
+</tr>
+<tr>
+<td>例外</td>
+<td>哪些情况不能按标准规则处理</td>
+</tr>
+</tbody>
+</table>
+<h2>区分工作量与限制条件</h2>
+<p>某一步花费很多时间，不一定是整条流程的主要限制。文书生成快了，审批仍然需要数天，端到端周期可能几乎不变。观察时应把执行时间与等待时间分别记录。</p>
+<p>同样，自动化容易处理的任务，未必值得优先做。若一项任务每月只发生一次，维护成本可能超过收益。若它涉及不可逆写入，即使频率很高，也需要先解决权限和复核问题。</p>
+<p>本书建议先选择一个高频、有明确所有者、可以取得样本的任务。它应当足够窄，能被完整测量；也应当连接真实工作，用户愿意继续使用其结果。</p>
+<h2>把人的动作和系统动作分开</h2>
+<p>流程图可以分成两条线。人的一条线记录阅读、判断、确认和交接；系统的一条线记录查询、计算、写入和通知。两条线相交的地方，就是界面和权限设计的重点。</p>
+<p>如果一个结果需要人工确认，界面就必须给出足够证据。只显示「建议通过」不够，复核者还需要知道依据、缺失信息和影响范围。若系统自动发送通知，则要明确收件人、发送时机和重复发送的处理方式。</p>
+<h2>本章练习</h2>
+<p>选择自己能合法观察的一项工作，完整记录一次正常处理和一次异常处理。不要先画理想流程。把真实动作整理成一页图，再标出最希望改变的一个环节。交给实际操作者确认，直到对方能够按图复述工作。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.palantir.com/docs/foundry/aip/getting-started-with-aip">Palantir 用例界定学习入口</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-01">← 上一章</a><a href="#ch-03">下一章 →</a></nav></article><article id="ch-03" hidden><p class="eyebrow">第一篇　认识 FDE</p><h1>第 3 章　价值指标与成本</h1>
+<p>模型回答得更好，只能证明输出质量发生变化。项目是否值得继续，还要看用户完成了什么工作，以及组织是否获得足以覆盖投入的收益。</p>
+<h2>把指标接起来</h2>
+<p>模型指标用于定位系统质量，产品指标说明用户怎样使用，业务指标反映任务结果。三者需要有明确联系。例如知识问答的引用正确率提高以后，用户是否减少了查证时间，最终是否更快完成任务，都需要另行测量。</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>可选指标</th>
+<th>常见误读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型</td>
+<td>字段正确率、引用支持率、工具参数有效率</td>
+<td>总分高就可以上线</td>
+</tr>
+<tr>
+<td>产品</td>
+<td>任务完成率、复核时长、人工接管率</td>
+<td>登录即代表采用</td>
+</tr>
+<tr>
+<td>业务</td>
+<td>处理周期、返工率、损失、服务质量</td>
+<td>节省时间可直接当利润</td>
+</tr>
+</tbody>
+</table>
+<p>先选一个主要目标，再设置不能恶化的指标。减少客服处理时间时，重复咨询、错误退款和投诉可能都是约束。它们应与速度一起出现在试点报告中。</p>
+<h2>先测量原有流程</h2>
+<p>上线前留下当前处理时间、样本范围和错误类型。平均值有用，但很慢的少数任务也可能决定用户体验。按任务复杂度分别统计，通常比把全部任务混在一起更容易解释变化。</p>
+<p>试点期间如果工单变简单了、人员变多了或政策调整了，结果就不能全部归因于 AI。条件允许时可以设置同期对照；条件不允许时，至少保留这些变化并限制结论。</p>
+<h2>一笔算得清楚的账</h2>
+<p>本书建议用下式做内部讨论，实际金额由组织自行核对。</p>
+<p>净收益 = 可归因的新增收入或节省支出 - 建设支出 - 持续运行支出。</p>
+<p>持续运行支出包括模型、存储、监控、人工复核、支持和更新。工程团队常把复核时间漏掉。如果用户为了确认结果又完成了一遍原有工作，表面自动化率再高，也可能没有节省时间。</p>
+<p>释放出的工作时间可以改善服务、增加产能或减少加班。只有组织确实作出相应安排，才能进一步讨论财务价值。报告中应分别列出时间变化和已兑现的支出变化。</p>
+<h2>本章交付物</h2>
+<p>写一页试点衡量表，包含目标任务、基线、目标值、统计周期、样本来源、约束指标和负责人。每个百分比都要能回答分母是什么。暂时没有基线的项标明待测量，不填估计数字充当事实。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://openai.com/index/bbva/">BBVA 的采用与效率口径</a></li>
+<li><a href="https://openai.com/index/klarna/">Klarna 的早期客服指标</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-02">← 上一章</a><a href="#ch-04">下一章 →</a></nav></article><article id="ch-04" hidden><p class="eyebrow">第一篇　认识 FDE</p><h1>第 4 章　能力地图与协作边界</h1>
+<p>FDE 会接触业务、软件、数据和组织协作。学习时很容易把自己需要掌握的工具列成无限长的清单。更实用的办法是从交付动作反推能力。</p>
+<h2>五种可以检验的能力</h2>
+<p>业务理解可以通过一张被用户认可的流程图检验。工程能力可以通过一条真实可运行的请求链路检验。数据判断要看你能否发现缺失、冲突和权限问题。评测能力要看错误能否被稳定复现。协作能力则要看跨部门决定是否有明确责任人与记录。</p>
+<p>这些能力不要求平均发展。后端工程师可能先补用户观察和采用设计，业务顾问则需要补接口、数据库、测试与部署。选择自己的一个短板，用可交付的作品练习，比继续收集术语更有效。</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>最低可见作品</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务理解</td>
+<td>一页现状流程与问题说明</td>
+</tr>
+<tr>
+<td>工程实现</td>
+<td>可复现的应用、测试与部署说明</td>
+</tr>
+<tr>
+<td>数据判断</td>
+<td>字段定义、质量检查和权限范围</td>
+</tr>
+<tr>
+<td>评测改进</td>
+<td>失败分类、测试集、版本比较</td>
+</tr>
+<tr>
+<td>协作交接</td>
+<td>决策记录、运行手册和维护责任</td>
+</tr>
+</tbody>
+</table>
+<h2>知道何时请专业人员参与</h2>
+<p>了解安全概念不等于能够批准安全例外。懂一些财务指标不等于有权签署财务结论。FDE 的能力包含识别这些边界，并及时让相应负责人参与。</p>
+<p>对每个重要决定，写下提议人、执行人、批准人和受影响的人。角色可以重叠，但批准权必须清楚。项目越接近写入生产系统，越不能依赖口头理解。</p>
+<h2>技术深度怎样生长</h2>
+<p>先把一条小流程做完整，再沿着暴露的问题深入。查询慢，就学习索引与缓存；权限复杂，就学习授权模型；模型经常引用错误，就检查检索与评测。这样的技术积累有具体问题作为检验。</p>
+<p>本书不建议把熟悉框架数量作为能力指标。框架能帮助完成工作，也可能掩盖请求、状态和错误处理。至少选择一个项目，能够不依赖框架术语讲清楚它怎样运行。</p>
+<h2>本章练习</h2>
+<p>给自己的五种能力各选一个现有作品作证据。没有作品的项目不必打高分，直接写出下一次练习。再请一位与你背景不同的人审阅，看看你是否遗漏了对方最关心的责任。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://huggingface.co/learn/agents-course/unit0/introduction">Hugging Face Agents Course 的实践要求</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-03">← 上一章</a><a href="#ch-05">下一章 →</a></nav></article><article id="ch-05" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 5 章　大模型与上下文</h1>
+<p>进入企业项目，首先要弄清一次模型调用获得了什么信息。用户看到的是一个回答，工程师需要看到指令、输入、历史、工具结果和输出约束。</p>
+<h2>一次调用的组成</h2>
+<p>模型根据输入上下文生成输出。上下文可以包含任务指令、用户问题、检索资料、示例和工具返回值。模型没有收到的企业事实，不能指望它准确补出。模型自身掌握的知识也可能过时，或不适用于当前组织。</p>
+<p>Token 是模型处理文本的计量单位，不能简单等同于汉字或英文单词。上下文窗口限制单次可处理的信息规模，输出长度还有自己的约束。应用需要管理资料数量、重要性和位置，而非持续堆入全部历史。</p>
+<h2>提示写清什么</h2>
+<p>一份可维护的提示至少交代任务、输入含义、输出形式、判断规则和信息不足时的行为。示例用于说明难以只靠文字表达的边界。给模型写一长段职业身份介绍，通常不能替代具体规则。</p>
+<p>提示应与代码一样保留版本。调整提示时，用同一批样本比较质量、时延和成本。若只保留几次令人满意的回答，团队无法判断修改是否改善了总体表现。</p>
+<h2>结构化输出的边界</h2>
+<p>让模型返回结构化字段，可以减少程序解析的歧义，但字段符合格式不代表事实正确。订单编号可能格式合法却不存在，金额可能是数字却超出允许范围。应用应继续验证存在性、业务约束和当前权限。</p>
+<p>同样，模型表达的确信程度不能直接当作正确概率。需要通过真实样本校准，或使用明确规则决定何时拒答、补问或交给人工。</p>
+<h2>上下文需要取舍</h2>
+<p>过时规则与现行规则同时出现时，应由数据版本和业务政策决定优先级。不要把冲突材料交给模型以后期待它自动理解公司的生效安排。上下文管理的一项重要工作，就是在调用以前排除不应进入的信息。</p>
+<p>本书建议先做最小可用上下文，再逐步增加证据。每加一类资料，都检查它是否改善了目标任务，是否引入泄露、干扰或更高成本。</p>
+<h2>本章练习</h2>
+<p>为同一个抽取任务准备三版输入，分别包含充分证据、缺失证据和冲突证据。写出每种情况下的期望行为。测试重点放在模型是否识别信息不足，而非回答是否流畅。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic 关于工作流与模型调用的工程说明</a></li>
+<li><a href="https://huggingface.co/learn/agents-course/unit0/introduction">Hugging Face 的 Agent 基础课程</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-04">← 上一章</a><a href="#ch-06">下一章 →</a></nav></article><article id="ch-06" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 6 章　数据、接口与业务对象</h1>
+<p>模型应用进入企业后，经常先遇到数据问题。同一个客户有多个编号，同一项金额有不同计算口径，历史记录缺少状态。连接成功只是第一步，理解数据含义才决定后续结果是否可信。</p>
+<h2>先定义业务对象</h2>
+<p>订单、设备、工单、合同都可以成为业务对象。每个对象有身份、属性、状态和关系。订单关联客户与商品，工单关联订单与处理人。把这些关系写清楚，比先选择数据库更有帮助。</p>
+<p>Palantir 的 Ontology 是把数据与业务对象、操作相联系的一种平台实现。学习时可以借此理解对象建模，但不应把特定产品的概念当成所有系统必须采用的架构。</p>
+<table>
+<thead>
+<tr>
+<th>数据问题</th>
+<th>进入模型前的处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名称不同但对象相同</td>
+<td>建立标识映射与别名</td>
+</tr>
+<tr>
+<td>单位或时区不一致</td>
+<td>统一表示并保留原始值</td>
+</tr>
+<tr>
+<td>历史规则已失效</td>
+<td>记录生效时间与版本</td>
+</tr>
+<tr>
+<td>资料缺失</td>
+<td>标出缺失，不擅自补全</td>
+</tr>
+<tr>
+<td>用户看不到部分记录</td>
+<td>查询时执行访问控制</td>
+</tr>
+</tbody>
+</table>
+<h2>API 是一份行为约定</h2>
+<p>接口需要说明输入、输出、错误和副作用。一个「更新订单」工具若同时改状态、发通知和触发财务操作，模型或调用者就难以判断影响。尽量把高风险动作拆成语义清晰、权限独立的接口。</p>
+<p>读取接口和写入接口应分开设计。读取失败通常可以重试，写入超时则可能存在「已经成功但响应丢失」的情况。再次提交前需要通过业务流水号或幂等标识核对，避免重复扣款、退款或发单。</p>
+<h2>身份应沿请求传递</h2>
+<p>应用知道用户是谁，并不代表下游服务知道用户能做什么。把所有请求交给一个全权限账户执行，会使用户权限失去意义。服务端应根据受信任的身份信息检查租户、对象和动作权限，不能接受模型自填的用户身份作为授权依据。</p>
+<p>日志也属于数据系统。它可能记录客户输入、检索片段和工具参数，因此同样需要访问权限、保留期限和脱敏处理。</p>
+<h2>本章交付物</h2>
+<p>选一个业务对象，完成字段字典与接口说明。每个字段写清来源、类型、允许值、更新时间和访问范围。再为每个写操作列出副作用、重复提交的处理办法及人工核对方式。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.palantir.com/docs/foundry/getting-started/overview">Palantir 的数据层与对象层入门</a></li>
+<li><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 的接口与上下文交换架构</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-05">← 上一章</a><a href="#ch-07">下一章 →</a></nav></article><article id="ch-07" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 7 章　RAG 与企业知识</h1>
+<p>RAG 是检索增强生成。应用先从允许访问的资料中找出相关证据，再让模型根据证据回答。它适合资料会更新、答案需要出处的任务，但效果依赖整条数据处理过程。</p>
+<h2>从文档到证据</h2>
+<p>基本过程是收集与授权、解析、切分、建立索引、检索、排序，再生成答案与引用。每一步都可能改变结果。扫描件识别错了一位数字，检索再准确也无法恢复原始事实。</p>
+<p>切分时要保留理解片段所需的背景。孤立的一行表格可能缺少列名，条款可能缺少适用范围。片段应关联文档标题、章节、版本、日期和权限。补充背景可以帮助检索，但补充内容也需要检查，不能悄悄改变原文含义。</p>
+<h2>检索方法按任务比较</h2>
+<p>关键词搜索擅长精确名称、编号和专业术语；向量检索擅长表达不同但语义接近的查询。混合检索与重排序可以作为候选方案，用真实问题比较后决定是否采用。</p>
+<p>不要只测答案。先看正确资料是否进入候选结果，再看它是否被排在可用位置，最后检查模型是否正确使用。若第一步已经失败，继续修改回答提示通常不会解决问题。</p>
+<table>
+<thead>
+<tr>
+<th>失败现象</th>
+<th>优先检查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完全找不到资料</td>
+<td>是否入库、解析是否完整、权限是否正确</td>
+</tr>
+<tr>
+<td>找到同名旧文件</td>
+<td>版本、生效时间与排序</td>
+</tr>
+<tr>
+<td>引用存在但不支持结论</td>
+<td>片段完整性和答案证据匹配</td>
+</tr>
+<tr>
+<td>不同用户看到相同敏感内容</td>
+<td>检索过滤、缓存隔离与引用权限</td>
+</tr>
+</tbody>
+</table>
+<h2>知识需要维护人</h2>
+<p>每类重要资料都应有所有者。新增、修订、撤回和失效需要明确流程。删除或撤回源资料时，索引、缓存和引用也要按组织政策同步处理，避免旧内容继续出现在回答中。</p>
+<p>没有足够证据时，可以展示检索结果并提示无法得出结论。拒答不必意味着页面什么都不提供，但不能为了完整感而编造规则。</p>
+<h2>本章练习</h2>
+<p>建立一组包含编号查询、口语查询、过期规则和越权问题的测试集。分别记录检索命中、引用正确和答案可用三项结果。先修复最前面失效的一步，再比较整体表现。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/contextual-retrieval">Anthropic 的 Contextual Retrieval 说明</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-06">← 上一章</a><a href="#ch-08">下一章 →</a></nav></article><article id="ch-08" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 8 章　工作流、Agent 与 MCP</h1>
+<p>一个应用可以使用模型，却不需要让模型决定所有步骤。把流程控制交给谁，是工程设计中必须明确的选择。</p>
+<h2>固定工作流与动态决策</h2>
+<p>工作流由程序预先安排步骤。例如先识别单据，再校验字段，最后交给人工确认。Agent 则可以根据当前结果决定下一步动作，例如先查询订单，发现缺少配送信息后再调用物流工具。</p>
+<p>Anthropic 的工程文章采用这一划分，并建议从简单、可组合的方法开始。它适合解释设计取舍，不能被理解为一种必须追求更高自主性的成熟度排名。</p>
+<table>
+<thead>
+<tr>
+<th>任务条件</th>
+<th>可先考虑的方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>规则确定、字段明确</td>
+<td>普通程序与规则引擎</td>
+</tr>
+<tr>
+<td>步骤固定、部分步骤需要理解语言</td>
+<td>带模型节点的工作流</td>
+</tr>
+<tr>
+<td>路径随输入变化、结果可以检查</td>
+<td>有边界的 Agent</td>
+</tr>
+<tr>
+<td>多个独立子任务且收益可验证</td>
+<td>并行或多 Agent，额外评估协调成本</td>
+</tr>
+</tbody>
+</table>
+<h2>工具决定行动范围</h2>
+<p>工具说明要让调用者知道何时使用、需要什么参数、返回什么，以及会改变什么状态。给 Agent 一个可任意执行的通用接口，往往会把本来能够限制的风险放大。</p>
+<p>控制至少包括调用次数、总运行时间、费用预算和写入权限。停止条件要由程序执行，不能只在提示里要求模型自觉遵守。外部页面和工具返回内容都可能含有不可信指令，不能自动升级为系统授权。</p>
+<h2>MCP 解决连接约定</h2>
+<p>MCP，即 Model Context Protocol，规定 AI 应用与外部服务交换上下文和调用能力的方式。常见角色包括宿主应用、客户端和服务器。服务器可以提供工具、资源与提示模板。</p>
+<p>协议统一了部分连接方式，但不会自动替应用选择正确工具，也不会替企业完成权限设计和安全审查。接入一个服务器以前，仍要核对它能访问的数据、能执行的动作、凭据范围和维护来源。协议版本变化较快，实施时应使用当前官方文档。</p>
+<h2>本章练习</h2>
+<p>为一个只读查询任务设计两个工具。每个工具写出参数、结果、错误和权限。再加入一个写工具，说明它为什么需要确认，以及用户取消后系统应保留什么状态。最后检查是否能用固定工作流更简单地完成同一任务。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic 的工作流与 Agent 设计</a></li>
+<li><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 官方架构说明</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-07">← 上一章</a><a href="#ch-09">下一章 →</a></nav></article><article id="ch-09" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 9 章　评测与错误分析</h1>
+<p>评测让「这个结果可不可以用」变成能够重复检查的问题。它需要业务人员参与，因为工程师未必知道哪些错误只影响表达，哪些会导致实际损失。</p>
+<h2>从样本写出规格</h2>
+<p>一条评测样本包含输入、必要上下文、期望行为、不可接受行为和评分规则。答案不一定只有一种写法，因此可以按事实、完整性、行动和风险分别评分。</p>
+<p>样本应覆盖高频任务、边界情况和历史失败。开发集用于调试，保留集用于检查是否只适应了已见过的问题。生产反馈可以补充样本，但需要去除不必要的个人信息，并遵守数据使用授权。</p>
+<h2>评分器各有适用范围</h2>
+<p>格式、必填字段和参数范围可以用程序检查。事实是否正确、政策是否适用，可能需要专家判断。模型评分适合扩大检查规模，但应与人工标注比较，确认它会漏掉哪些错误。</p>
+<p>仅看平均分会掩盖少数高风险问题。把不同语言、任务类型、权限级别与异常条件分开报告。当总体成绩提高但高风险任务退化时，团队应按预先约定的规则决定是否发布。</p>
+<h2>先找到错误发生的位置</h2>
+<table>
+<thead>
+<tr>
+<th>错误类别</th>
+<th>可能的工程动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入缺信息</td>
+<td>补问或改变数据采集</td>
+</tr>
+<tr>
+<td>证据未检索到</td>
+<td>修复索引、查询或权限</td>
+</tr>
+<tr>
+<td>模型误用证据</td>
+<td>改提示、样例与证据展示</td>
+</tr>
+<tr>
+<td>工具参数错误</td>
+<td>强化接口约束和参数校验</td>
+</tr>
+<tr>
+<td>写入重复</td>
+<td>幂等处理与状态核对</td>
+</tr>
+<tr>
+<td>用户误解结果</td>
+<td>调整界面、标签和确认步骤</td>
+</tr>
+</tbody>
+</table>
+<p>换模型可以作为实验，但应先有错误分类。否则更好的总分可能只是暂时掩盖了数据或接口问题。</p>
+<h2>把评测接入发布</h2>
+<p>模型、提示、工具定义、检索配置和政策变更都可能影响结果。发布报告应保留这些版本，并与上一版比较质量、延迟和成本。失败样本可以链接到具体修改，方便后来的人理解取舍。</p>
+<p>Morgan Stanley 的公开案例把领域评测放进开发过程。它说明企业应用能够将专家标准转成持续测试，但其具体样本与阈值不能直接套到另一家公司。</p>
+<h2>本章交付物</h2>
+<p>建立一个小型测试集，故意放入至少一种严重错误。用程序检查与人工检查各跑一遍，比较二者差异。报告不仅列总分，还应能定位每个失败以及它对应的修复动作。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://openai.com/index/morgan-stanley/">Morgan Stanley 的评测实践</a></li>
+<li><a href="https://arize.com/docs/ax/learn/evaluation-concepts/agent-evaluation">Arize 的 Agent 评测说明</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-08">← 上一章</a><a href="#ch-10">下一章 →</a></nav></article><article id="ch-10" hidden><p class="eyebrow">第二篇　技术基础</p><h1>第 10 章　权限、安全与人工控制</h1>
+<p>当模型只能生成建议时，错误主要通过用户采纳影响工作。模型获得工具之后，错误可能直接改变记录或触发外部动作。控制措施应跟着这种影响变化。</p>
+<h2>按动作判断风险</h2>
+<p>读取公开资料、读取敏感数据、草拟内容、修改内部记录和对外执行，风险并不相同。应用应针对每一种动作定义授权与确认。不能因为用户可以打开应用，就允许它代表用户完成所有操作。</p>
+<p>高影响动作要在执行位置设置控制。确认界面应显示对象、金额或范围、预期变化和是否可撤销。若用户看不到这些信息，确认按钮只能留下形式上的记录。</p>
+<h2>提示注入的信任边界</h2>
+<p>网页、文档、邮件和工具结果都可能夹带要求模型忽略规则或传出信息的内容。这些材料是待处理数据，不能赋予它们与用户授权相同的地位。</p>
+<p>防护需要多层配合。限制工具权限、校验参数、隔离敏感数据、控制外部发送目标，以及记录高风险动作，都能缩小影响。单独加一句「不要受恶意指令影响」无法替代这些工程控制。</p>
+<h2>人工复核需要工作条件</h2>
+<p>复核者要获得证据、足够时间和拒绝权限。若每天要确认大量无法核查的结果，人工控制容易退化成机械点击。系统应把需要判断的差异呈现出来，并允许回到原始资料。</p>
+<table>
+<thead>
+<tr>
+<th>控制问题</th>
+<th>应有的明确答案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>谁能读取</td>
+<td>用户、角色、租户与对象权限</td>
+</tr>
+<tr>
+<td>谁能执行</td>
+<td>动作授权、额度和确认条件</td>
+</tr>
+<tr>
+<td>何时停止</td>
+<td>异常、缺证据、预算耗尽等条件</td>
+</tr>
+<tr>
+<td>出错后怎么办</td>
+<td>接管人、暂停方式和记录核对</td>
+</tr>
+<tr>
+<td>数据保留多久</td>
+<td>内容分类与组织保留政策</td>
+</tr>
+</tbody>
+</table>
+<h2>安全验收应包含失败路径</h2>
+<p>测试越权查询、跨租户访问、恶意文档、参数篡改和重复提交。检查失败时是否泄露敏感细节，是否仍然产生了副作用。安全团队给出要求后，应把可自动检查的部分纳入持续测试。</p>
+<p>本章仅提供工程检查思路。具体行业、地区与合同要求，需要组织的专业人员审核。没有通过对应审查，不能声称应用已经合规。</p>
+<h2>本章交付物</h2>
+<p>为项目列出一份动作权限表和失败测试表。选一个最高风险动作，完整演练用户拒绝、请求超时与人工接管，确认系统状态可以解释。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP 的大模型应用风险项目</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-09">← 上一章</a><a href="#ch-11">下一章 →</a></nav></article><article id="ch-11" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 11 章　需求发现与现场访谈</h1>
+<p>需求发现的结果应当让团队能够决定下一步验证什么。会议记录有用，但还需要任务样本、流程、基线与关键未知项。</p>
+<h2>请用户带来一次真实任务</h2>
+<p>访谈可以从最近完成的一次工作开始。请对方展示允许公开的输入、操作过程和最终结果。询问在哪一步需要停下来查资料，哪一步必须请同事帮忙，以及做错以后怎样发现。</p>
+<p>不要只与项目发起人交谈。一线用户知道实际动作，流程负责人知道规则和资源，安全与 IT 人员知道接入条件，预算负责人知道项目为何值得投入。各方说法不同，往往反映了不同责任，无须急着把它们压成同一个答案。</p>
+<h2>观察与解释分别记录</h2>
+<p>「用户复制了三个系统的编号」是观察，「接口缺失导致工作慢」是解释。解释需要继续验证。也许存在接口，只是用户没有权限；也许编号不一致，连接接口也无法直接匹配。</p>
+<p>访谈结束后，把事实、假设和待验证问题分栏整理。涉及个人数据或商业机密时，记录必要信息即可，不应为了完整而扩大采集范围。</p>
+<h2>发现阶段的出口</h2>
+<table>
+<thead>
+<tr>
+<th>材料</th>
+<th>能回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>问题说明</td>
+<td>谁在什么任务上遇到什么障碍</td>
+</tr>
+<tr>
+<td>当前流程</td>
+<td>人、数据和系统怎样协作</td>
+</tr>
+<tr>
+<td>正常与失败样本</td>
+<td>好坏结果怎样识别</td>
+</tr>
+<tr>
+<td>基线记录</td>
+<td>当前耗时、质量与成本怎样</td>
+</tr>
+<tr>
+<td>依赖清单</td>
+<td>权限、接口和负责人是否就绪</td>
+</tr>
+<tr>
+<td>验证计划</td>
+<td>下一步先检查哪个假设</td>
+</tr>
+</tbody>
+</table>
+<p>如果关键数据拿不到、业务负责人不愿投入时间，或结果无法判断，团队应先解决这些条件。进入开发不会让这些问题自行消失。</p>
+<h2>本章练习</h2>
+<p>用一次短访谈获取一个正常样本和一个异常样本。访谈后写一段不含工具名的问题说明，再请受访者修正。检查双方是否同意项目要改变的那一步工作。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.palantir.com/docs/foundry/aip/getting-started-with-aip">Palantir 的用例界定课程入口</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-10">← 上一章</a><a href="#ch-12">下一章 →</a></nav></article><article id="ch-12" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 12 章　范围与验收约定</h1>
+<p>原型开始以后，新需求通常会继续出现。范围管理让这些变化可见，避免团队在不知不觉中承担另一项工作。</p>
+<h2>选一条足够窄的完整流程</h2>
+<p>可以限制用户群、任务种类、地区或工具数量，但应尽早贯通身份、数据、处理、结果和日志。只把模型环节做得很精致，无法证明客户环境里整条流程能够运行。</p>
+<p>把功能分成四类，本期完成、试点中由人工承担、后续评估和明确不做。人工承担的部分要写进演示与验收说明，不能把幕后人工包装成自动化能力。</p>
+<h2>验收前先约定证据</h2>
+<p>验收条件要同时包含功能、质量、风险和运营。谁提供样本、谁判断争议、在哪个环境测试，都要提前说明。如果上线日期固定，范围就需要容许调整；若质量约束不可降低，则不能以日期为理由略过测试。</p>
+<table>
+<thead>
+<tr>
+<th>约定项</th>
+<th>示例形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标任务</td>
+<td>限定用户处理限定类型记录</td>
+</tr>
+<tr>
+<td>范围边界</td>
+<td>查询与草拟可用，外部发送由人确认</td>
+</tr>
+<tr>
+<td>质量证据</td>
+<td>约定样本集、评分规则与严重错误项</td>
+</tr>
+<tr>
+<td>运行证据</td>
+<td>权限测试、监控、回退与支持演练</td>
+</tr>
+<tr>
+<td>接受决定</td>
+<td>指定业务与技术验收人</td>
+</tr>
+</tbody>
+</table>
+<p>这里的形式是本书建议。具体目标数值必须根据风险、当前基线与资源确定，不能把别的项目阈值当成通用标准。</p>
+<h2>变更怎样进入项目</h2>
+<p>每项变更记录理由、影响、依赖与决定。新增写操作可能改变安全审核范围；增加语言可能需要新的专家样本；更换数据源可能影响接口和索引。负责人据此选择调整时间、资源或范围。</p>
+<p>对无法及时解决的关键依赖，写明暂停或转向条件。项目停止也应留下发现结果和可复用材料，使后续团队知道哪些假设已经被检验。</p>
+<h2>本章交付物</h2>
+<p>制作一页交付约定，写出任务、范围、验收证据、双方责任、变更办法及退出条件。让一名未参加项目的人阅读，检查他能否判断哪些事情不在本期承诺中。</p>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-11">← 上一章</a><a href="#ch-13">下一章 →</a></nav></article><article id="ch-13" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 13 章　原型与受控试点</h1>
+<p>原型用于降低不确定性。开始以前，先写下最可能使项目失败的假设，再选择能检验它的最小实验。</p>
+<h2>原型可以有不同形态</h2>
+<p>如果问题是用户是否能理解引用，先测试结果页面。如果问题是历史资料能否解析，先跑文档样本。如果问题是写接口是否稳定，就在授权测试环境验证调用。完整聊天框未必是最先需要的部分。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>能检验什么</th>
+<th>不能据此声称什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人工辅助演示</td>
+<td>工作价值和交互理解</td>
+<td>已经完成自动化</td>
+</tr>
+<tr>
+<td>离线测试</td>
+<td>模型与流程在样本上的表现</td>
+<td>已适应生产流量</td>
+</tr>
+<tr>
+<td>影子运行</td>
+<td>实际输入下的表现</td>
+<td>已产生业务收益</td>
+</tr>
+<tr>
+<td>受控试点</td>
+<td>有限范围内的真实使用</td>
+<td>可以无条件全量推广</td>
+</tr>
+</tbody>
+</table>
+<p>每次进入下一阶段，都应新增一项证据。阶段升级同时意味着更大的数据和操作责任，需要对应授权。</p>
+<h2>让用户实际完成任务</h2>
+<p>试用时观察用户会不会核对、修改、复制或放弃结果。只询问是否喜欢，容易得到礼貌但无用的反馈。把用户修改分成事实修正、规则修正、表达调整和个人偏好，有助于后续评测。</p>
+<p>记录实验条件，包括样本、模型、提示、工具和参与者。一次结果变好后，先确认变化来自哪里。多个因素同时修改，会使团队难以解释改善是否可重复。</p>
+<h2>试点要留出人工退路</h2>
+<p>当系统无法完成任务，用户应知道怎样继续工作。接管时保留已经核实的信息、失败原因和待处理动作，避免让用户重新讲述全部背景。</p>
+<p>扩大试点前检查质量是否跨用户稳定、复核是否过重、支持人员能否承接问题。低使用率需要回到真实工作观察，不能一律解释为用户缺少培训。</p>
+<h2>本章练习</h2>
+<p>写一张实验卡，包含假设、验证办法、成功与停止条件。完成一次小实验后，保留一个失败样本，并解释它怎样改变了下一步设计。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://scale.com/customers/time">TIME 的公开交付案例</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-12">← 上一章</a><a href="#ch-14">下一章 →</a></nav></article><article id="ch-14" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 14 章　生产发布与回退</h1>
+<p>生产发布会把应用放进持续运行的业务环境。用户数量、数据分布与故障后果都可能超出原型条件，因此上线需要独立的检查。</p>
+<h2>一次发布包含哪些版本</h2>
+<p>代码之外，模型、提示、工具说明、索引和政策都可能改变行为。发布记录要能识别这组配置，出现问题时才能定位和恢复。只记代码提交号，常常无法复现当时的回答。</p>
+<p>模型供应商更新、文档自动同步与权限调整也应有变更监测。外部条件变化后，核心评测需要重新运行。</p>
+<h2>逐步扩大影响范围</h2>
+<p>发布单位可以是指定用户、任务类型或流量比例。先选择风险可控且反馈及时的群体，设定观察窗口和暂停条件。扩大范围由实际证据决定，不只由计划日期决定。</p>
+<table>
+<thead>
+<tr>
+<th>上线检查</th>
+<th>需要看到的证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>功能与质量</td>
+<td>关键任务测试和风险切片结果</td>
+</tr>
+<tr>
+<td>数据与权限</td>
+<td>真实身份下的访问与越权测试</td>
+</tr>
+<tr>
+<td>性能与费用</td>
+<td>预期负载和费用上限测试</td>
+</tr>
+<tr>
+<td>运行支持</td>
+<td>监控、值班联系人与升级路径</td>
+</tr>
+<tr>
+<td>回退</td>
+<td>实际演练过的暂停和恢复办法</td>
+</tr>
+</tbody>
+</table>
+<h2>回退不能撤销一切</h2>
+<p>切回旧模型或旧代码，不能自动撤回已经发出的邮件、已修改的订单或已形成的客户承诺。写操作需要单独的核对与补偿方案，并由获授权人员决定是否执行。</p>
+<p>因此，回退计划要分开两件事。先停止继续产生影响，再确认已经发生的变化。事故记录保留受影响对象、动作时间和当前状态，便于业务负责人处理。</p>
+<h2>本章交付物</h2>
+<p>完成一份发布记录与回退演练记录。模拟模型质量下降、工具不可用和权限异常，检查团队能否在不依赖原开发者的情况下暂停相关功能，并继续办理必要业务。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://sre.google/sre-book/monitoring-distributed-systems/">Google SRE 的监控原则</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-13">← 上一章</a><a href="#ch-15">下一章 →</a></nav></article><article id="ch-15" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 15 章　可观测性与故障处理</h1>
+<p>用户报告「结果不对」时，工程师需要把一次任务还原到具体步骤。可观测性提供这种还原能力，同时也要控制记录内容带来的隐私风险。</p>
+<h2>记录可解释的一次请求</h2>
+<p>为一次任务分配关联标识，把检索、模型调用、工具执行和人工接管联系起来。记录开始结束时间、状态、版本和必要的输入输出摘要。不要无差别保存敏感全文，也不必要求模型暴露隐藏的内部推理过程。</p>
+<p>运行记录应使团队能够区分响应慢、请求失败、模型答错与业务处理失败。服务返回成功，并不意味着订单已正确更新或用户问题已解决。</p>
+<h2>监控用户能感受到的结果</h2>
+<p>Google SRE 的监控材料讨论延迟、流量、错误与饱和度。模型应用可以保留这些服务指标，再增加引用错误、工具失败、人工接管和任务完成情况。每个告警最好对应一个能采取行动的人与处理办法。</p>
+<table>
+<thead>
+<tr>
+<th>故障</th>
+<th>保守处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型超时</td>
+<td>有限重试，随后提供人工或非模型路径</td>
+</tr>
+<tr>
+<td>写工具超时</td>
+<td>先核对状态，再决定是否重试</td>
+</tr>
+<tr>
+<td>检索不可用</td>
+<td>显示限制，不编造无证据答案</td>
+</tr>
+<tr>
+<td>费用异常</td>
+<td>限制流量、检查循环与调用预算</td>
+</tr>
+<tr>
+<td>质量突降</td>
+<td>暂停高风险功能并回放失败样本</td>
+</tr>
+</tbody>
+</table>
+<h2>备用模型也需要验证</h2>
+<p>接口兼容不保证行为一致。备用模型的结构化输出、工具参数、拒答与政策遵守情况都需要测试。切换时可以先关闭高影响操作，提高人工参与比例，等关键指标稳定后再恢复。</p>
+<p>事故复盘记录触发条件、时间线、影响范围、恢复动作和预防改动。重点是让相同故障更早被发现、影响更小，并留下可重复的测试。</p>
+<h2>本章练习</h2>
+<p>选择一个可安全模拟的依赖故障，观察系统是否在预算内停止。检查用户看到的提示、日志里的信息和人工接管材料是否一致。演练不得影响真实客户或触发未授权写入。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://sre.google/sre-book/monitoring-distributed-systems/">Google SRE 监控章节</a></li>
+<li><a href="https://claude.com/customers/assembled">Assembled 的公开故障切换案例</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-14">← 上一章</a><a href="#ch-16">下一章 →</a></nav></article><article id="ch-16" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 16 章　用户采用与运营交接</h1>
+<p>系统上线之后，用户仍可能回到旧办法。要判断原因，需要观察实际工作中增加和减少了哪些动作。</p>
+<h2>使用入口影响采用成本</h2>
+<p>如果用户必须离开原系统、重新输入上下文，再把答案复制回去，节省的时间可能被这些动作抵消。尽量复用已有身份与工作入口，同时保持结果来源和当前状态可见。</p>
+<p>信任来自持续可用的结果，也来自用户知道系统何时会失败。展示证据、标明信息缺口、允许修改与申诉，都有助于形成合理预期。用宣传替代质量，只会使下一次错误更难处理。</p>
+<h2>用真实任务判断采用</h2>
+<p>登录数能说明接触范围，不能证明工作改变。观察完成了多少任务、多少结果被修改、用户在哪里放弃，以及复核耗时是否下降。可以按部门、岗位和任务类型分开比较。</p>
+<p>试点用户应包含愿意指出问题的人。他们可以帮助解释使用方法，但不应承担全部技术支持。身份异常、权限变化、模型故障和政策更新需要正式处理渠道。</p>
+<h2>把维护能力交给客户</h2>
+<table>
+<thead>
+<tr>
+<th>交接对象</th>
+<th>应能独立完成的工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务负责人</td>
+<td>判断质量、调整允许任务、决定暂停</td>
+</tr>
+<tr>
+<td>内容负责人</td>
+<td>更新资料、处理冲突、撤回过期内容</td>
+</tr>
+<tr>
+<td>技术负责人</td>
+<td>查看运行状态、发布、恢复与排查</td>
+</tr>
+<tr>
+<td>支持人员</td>
+<td>收集问题、分类、升级并反馈结果</td>
+</tr>
+</tbody>
+</table>
+<p>交接应通过一次实际演练检验。让维护人完成更新与回退，让支持人员处理一个模拟问题。说明文档能够被找到、读懂并用起来，才算真正交付。</p>
+<h2>本章练习</h2>
+<p>记录用户完成一项任务的全部操作，计算新系统额外增加了哪些步骤。再让一位未参与开发的人按运行手册处理一个小故障，补齐他无法继续的地方。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://openai.com/index/bbva/">BBVA 的企业采用案例</a></li>
+<li><a href="https://fde100.datawhale.cn/cases/cases-009">Datawhale 制造业培训实践</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-15">← 上一章</a><a href="#ch-17">下一章 →</a></nav></article><article id="ch-17" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 17 章　团队组织与复用</h1>
+<p>单个项目可以依靠少数人熟悉全部细节。项目数量增加以后，这种方式容易让支持、定制与交接相互挤占。团队需要决定哪些工作留在客户现场，哪些进入共享产品。</p>
+<h2>先划清共同责任</h2>
+<p>业务负责人确认价值与规则，FDE 负责跨系统构建与交付协调，平台团队维护共享服务，安全与运营人员负责相应控制。团队规模不同，一人可以兼任多个角色，但每项重要责任都要有人明确接受。</p>
+<p>排期时应把上线后的支持计入工作量。若每位工程师同时启动多个项目，却没有维护容量，旧项目的故障会不断打断新项目。</p>
+<h2>哪些东西值得复用</h2>
+<p>身份接入、日志规范、工具接口、评测流程和发布检查通常容易形成共享能力。客户特有的政策、审批和数据定义则需要保留配置或扩展边界。</p>
+<p>看到第二个相似需求时，可以先比较差异，再决定是否抽象。过早把一个客户的特殊流程做成平台规则，会让后来项目绕着错误假设工作。</p>
+<table>
+<thead>
+<tr>
+<th>候选内容</th>
+<th>进入共享能力前要检查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接器</td>
+<td>身份、租户隔离和接口版本</td>
+</tr>
+<tr>
+<td>工具封装</td>
+<td>行为语义、权限与错误处理</td>
+</tr>
+<tr>
+<td>评测集结构</td>
+<td>可复用格式与客户数据隔离</td>
+</tr>
+<tr>
+<td>交付模板</td>
+<td>必填项、适用条件和责任人</td>
+</tr>
+<tr>
+<td>产品功能</td>
+<td>多个项目是否具有相同需求</td>
+</tr>
+</tbody>
+</table>
+<h2>项目经济性需要完整记录</h2>
+<p>除了建设时间，还要记录售前验证、集成、返工、培训和后续支持。若收入增长同时带来同样比例的人工支持，组织仍需面对服务成本。</p>
+<p>可以定期比较各项目的定制工作量、交付周期、支持负担和共享组件使用情况。复用率也不能单独作为目标，复用了不适用的组件可能增加后续返工。</p>
+<h2>本章交付物</h2>
+<p>从一个已完成项目里选出三项候选复用材料，分别写明适用条件与不可复用部分。至少保留一个明确不抽象的客户特例，并解释这样做怎样减少误用。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.palantir.com/docs/foundry/developers">Palantir 的平台与开发者资料</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-16">← 上一章</a><a href="#ch-18">下一章 →</a></nav></article><article id="ch-18" hidden><p class="eyebrow">第三篇　交付实务</p><h1>第 18 章　学习路线与作品集</h1>
+<p>学习 FDE 可以围绕一项小型交付展开。课程提供概念和练习，作品则检验你能否处理需求、数据、失败和交接。两者需要结合。</p>
+<h2>按缺少的能力选择课程</h2>
+<p>下列入口在本次编写时已核查。课程开放方式、费用、账号与证书条件可能变化，应以官方页面为准。本书不承诺就业或认证结果。</p>
+<table>
+<thead>
+<tr>
+<th>学习目的</th>
+<th>官方资料</th>
+<th>学完后应留下什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务对象与用例界定</td>
+<td>Palantir AIP 入门与 Scoping Use Cases</td>
+<td>一页用例与对象关系图</td>
+</tr>
+<tr>
+<td>理解 Agent 的运行方式</td>
+<td>Hugging Face Agents Course</td>
+<td>带工具与停止条件的小应用</td>
+</tr>
+<tr>
+<td>选择简单工作流</td>
+<td>Anthropic 工程文章</td>
+<td>一份架构取舍说明</td>
+</tr>
+<tr>
+<td>调试与评测 Agent</td>
+<td>DeepLearning.AI 与 Arize 课程</td>
+<td>测试集、评分器与实验报告</td>
+</tr>
+<tr>
+<td>理解接口连接</td>
+<td>MCP 官方文档</td>
+<td>工具接口与权限说明</td>
+</tr>
+</tbody>
+</table>
+<p>Palantir 的入门路线连接用例界定与实际工作流，适合学习平台如何服务业务。Hugging Face 课程包含框架和实践任务，适合具备基础 Python 能力的读者。DeepLearning.AI 的评测课程覆盖可观测性、组件评测与结构化实验。只完成其中一项，仍不足以证明可以独立交付生产系统。</p>
+<h2>一条可调整的学习安排</h2>
+<p>第一阶段观察真实任务并取得合法样本，留下流程、基线与权限范围。第二阶段完成最小应用，把数据、检索或工具调用接起来。第三阶段建立测试与运行记录，故意模拟失败。最后请其他人试用，并完成交接说明。</p>
+<p>可以按自己的可用时间安排，不必把某个固定天数当作能力保证。每一阶段的出口由作品决定。应用能够运行但没有评测，就继续补评测；演示顺利但用户无法自行使用，就继续改交互和说明。</p>
+<h2>作品集应该让人核查</h2>
+<p>一份有说服力的作品集包括问题背景、授权范围、方案取舍、运行方法、失败样本和结果限制。演示视频可以辅助理解，但要说明哪些部分为模拟数据，哪些已经实际验证。</p>
+<p>公开发布时，不上传客户数据、凭据、私人会议或未授权材料。可以用明确标注的合成数据展示技术流程，但不能据此声称取得了真实业务收益。</p>
+<h2>怎样使用 X 与社区</h2>
+<p>X 适合发现招聘、工程师讨论和新材料。本次检索到 Speechmatics 发布过包含 FDE 的岗位信息。这能作为岗位线索，不能用于推算行业规模或平均薪酬。看到效果数字后，应继续寻找公司原文、技术说明或正式文件。</p>
+<p>国内实践可从 Datawhale FDE100 开始。范冰的公开 FDE 指南也值得作为延伸阅读，但其版权声明限制商业用途。本书只链接原作。</p>
+<h2>本章交付物</h2>
+<p>把学习计划改写成四次可展示的提交，每次说明新增了什么能力和证据。最后请别人从空白环境复现项目，记录他遇到的问题并修正。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://www.palantir.com/docs/foundry/aip/getting-started-with-aip">Palantir AIP 学习路线</a></li>
+<li><a href="https://huggingface.co/learn/agents-course/unit0/introduction">Hugging Face Agents Course</a></li>
+<li><a href="https://www.deeplearning.ai/courses/evaluating-ai-agents">DeepLearning.AI 的 Evaluating AI Agents</a></li>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic 的 Agent 工程文章</a></li>
+<li><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP 官方文档</a></li>
+<li><a href="https://x.com/Speechmatics/status/2030980311022985622">Speechmatics 的 X 招聘帖</a></li>
+<li><a href="https://fde100.datawhale.cn/cases">Datawhale FDE100</a></li>
+<li><a href="https://github.com/xdash/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer">范冰的 FDE 指南</a></li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-17">← 上一章</a><a href="#ch-19">下一章 →</a></nav></article><article id="ch-19" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 19 章　Airbus，让数据进入维修决策</h1>
+<p>航空运营把设备、维护记录与人的判断联系在一起。Skywise 适合放在案例篇开头，因为它提醒读者，FDE 的工程工作早于本轮大模型应用，也不局限于聊天界面。</p>
+<h2>公开事实与证据</h2>
+<p>Airbus 在 2017 年发布 Skywise，公开介绍了与 Palantir 合作的数据平台。平台将航空公司运营、维修与飞机相关资料联系起来，支持航空运营与维护分析。早期材料列出 AirAsia、Delta、easyJet 等采用方。</p>
+<p>证据等级为 A，来自企业发布材料。不同年份的采用规模与收益数字属于不同范围。本章不把它们合并成统一效果，也不把平台部署全部归因于某个岗位。</p>
+<h2>业务问题怎样形成工程问题</h2>
+<p>维修判断涉及具体飞机、部件、故障记录与处理状态。不同系统中的名称和时间不能正确对应，分析人员就难以判断资料是否描述同一事件。能够连接数据，只解决了传输；业务对象和关联关系决定了数据能否一起解释。</p>
+<p>下面是本书的分析与教学设计，证据等级为 D，并非对客户内部架构的披露。</p>
+<p>若为类似任务设计试点，可以选择一种设备和一种异常。先整理历史记录的标识、时间与维修结果，再请专业人员定义什么情况需要检查。系统提供证据与提示，获授权人员仍负责实际维修决定。</p>
+<table>
+<thead>
+<tr>
+<th>交付环节</th>
+<th>应确认的事情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据匹配</td>
+<td>设备、部件与事件是否正确关联</td>
+</tr>
+<tr>
+<td>异常判断</td>
+<td>误报和漏报分别造成什么影响</td>
+</tr>
+<tr>
+<td>工作安排</td>
+<td>提示能否提前进入维护计划</td>
+</tr>
+<tr>
+<td>结果回写</td>
+<td>处理结果能否回到后续分析</td>
+</tr>
+</tbody>
+</table>
+<h2>为什么要关注工作安排</h2>
+<p>即使某种异常能够被识别，组织仍需要人员、备件和时间来处理。试点应检查提示到达后是否发生了正确行动，以及提前量是否足够。单独报告检测准确率，无法说明运营价值。</p>
+<p>反过来，某次运营改善也可能同时受到排班、供应和维护政策变化影响。需要保留这些条件，避免把全部变化算给模型或平台。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>准备设备对象字典、事件关联规则、异常样本表和处置记录。以一个范围有限的场景演练从数据到行动再到结果回写的过程。涉及航空安全的系统应接受相关专业审查，本书练习只能使用获授权的非生产数据。</p>
+<h2>资料没有说明什么</h2>
+<p>公开材料没有给出所有航空公司的具体实现、人员投入、维护成本和独立因果评估。读者不能据此推定任何相似组织都会获得相同收益。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://www.airbus.com/en/newsroom/press-releases/2017-06-airbus-launches-skywise-aviations-open-data-platform">Airbus 发布 Skywise</a></li>
+<li><a href="https://www.airbus.com/en/newsroom/news/2017-06-skywise-airline-early-adopter-highlights">Airbus 早期采用说明</a></li>
+<li>回读第 6 章的数据对象与第 3 章的价值衡量。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-18">← 上一章</a><a href="#ch-20">下一章 →</a></nav></article><article id="ch-20" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 20 章　Tampa General，医院运营协同</h1>
+<p>医院的床位安排涉及清洁、人员、设备与患者流转。优化一个局部步骤以后，其他条件仍可能限制整条流程。这个案例适合练习怎样界定业务指标。</p>
+<h2>公开事实与证据</h2>
+<p>Tampa General Hospital 在 2024 年 6 月的公告中介绍了与 Palantir 扩大合作，以及连通照护协调的计划。公告报告病床分配速度提高 83%、术后恢复区域的停留时间减少 28% 等结果。</p>
+<p>证据等级为 A，属于医院发布方报告。公开公告没有提供完整样本、同期对照与各项指标的计算过程。这些数字不应被改写为 AI 单独导致的临床效果。</p>
+<h2>从局部速度走到完整流程</h2>
+<p>病床安排更快，不必然意味着患者已经更快进入病房。房间可能等待清洁，人员或设备可能尚未就绪。流程测量需要区分申请、匹配、准备、转运与实际到达等事件。</p>
+<p>以下属于本书分析与教学设计，证据等级为 D。类似项目可以先建立状态字典，明确每个时间戳由哪个系统产生。对于缺失或延迟更新的状态，系统应显示不确定性，避免把过期记录当成当前事实。</p>
+<table>
+<thead>
+<tr>
+<th>需要测量的阶段</th>
+<th>要分清的情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提交申请到匹配</td>
+<td>是否真正找到符合条件的床位</td>
+</tr>
+<tr>
+<td>匹配到准备完成</td>
+<td>清洁、设备与人员是否就绪</td>
+</tr>
+<tr>
+<td>准备到转运</td>
+<td>是否存在其他流程等待</td>
+</tr>
+<tr>
+<td>到达后核对</td>
+<td>系统记录与实际状态是否一致</td>
+</tr>
+</tbody>
+</table>
+<h2>让专业人员保留决定权</h2>
+<p>流程建议可能涉及患者隔离、监护和其他专业要求。系统应将约束作为明确规则，并把无法满足条件的情况交给获授权人员。自动选择一个看起来可用的床位，不代表它满足临床需要。</p>
+<p>对状态变化频繁的场景，还要检查并发。两位操作人员同时接受同一资源建议时，最终分配必须由可信系统核对，不能只依赖界面显示。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>制作事件时间轴、状态定义、资源约束和异常接管表。用合成数据重放流程，比较局部用时与端到端用时。项目涉及医疗机构时，需要该机构的临床、信息与隐私团队审核；本书不提供患者处置建议。</p>
+<h2>资料没有说明什么</h2>
+<p>公告没有披露完整架构、各环节成本和对照方法。不能由运营指标推导患者层面的医疗结论，也不能把这里的效果阈值用于其他医院验收。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://www.tgh.org/news/tgh-press-releases/2024/june/tgh-selects-palantir-ai-software-connected-care-coordination">Tampa General 的合作公告</a></li>
+<li>回读第 2 章的流程观察与第 10 章的责任边界。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-19">← 上一章</a><a href="#ch-21">下一章 →</a></nav></article><article id="ch-21" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 21 章　Morgan Stanley，把评测放进开发</h1>
+<p>知识助手与会议纪要看起来都是文字任务，验收重点却不同。前者要准确找到和解释证据，后者要完整记录重要信息与待办，不能擅自增加承诺。</p>
+<h2>公开事实与证据</h2>
+<p>OpenAI 与 Morgan Stanley 的案例介绍了内部知识助手和 Debrief 会议工具。团队在部署前使用领域评测，并持续检查结果。Debrief 在取得客户同意后处理会议录音，生成笔记及后续草稿，由顾问复核。发布方报告超过 98% 的顾问团队使用内部助手。</p>
+<p>证据等级为 A，来源为联合客户故事。采用比例反映该材料的统计口径，不能直接证明收入提升或每条回答正确。</p>
+<h2>评测为什么需要分任务</h2>
+<p>以下是本书的分析与教学设计，证据等级为 D。知识问答应检查资料是否相关、引用是否支持结论，以及用户是否具有访问权。会议工具还要检查参与者、行动负责人、约定日期与待确认事项。</p>
+<p>同一句含糊表达，在检索任务里可能需要补问，在会议纪要里则应保留不确定性。把两种应用交给同一个笼统的「回答质量」评分器，会掩盖重要区别。</p>
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>应优先检查的失败</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识检索</td>
+<td>旧政策、错误引用与越权资料</td>
+</tr>
+<tr>
+<td>会议笔记</td>
+<td>漏掉限制、错认人物和虚构行动项</td>
+</tr>
+<tr>
+<td>后续草稿</td>
+<td>添加未经同意的承诺</td>
+</tr>
+<tr>
+<td>系统写入</td>
+<td>重复记录与错误关联客户</td>
+</tr>
+</tbody>
+</table>
+<h2>把顾问的修正用于改进</h2>
+<p>用户修改输出可以形成有价值的反馈，但需要分类。修正事实与调整语气的意义不同。将所有编辑都当成模型错误，会使评测目标变得混乱。</p>
+<p>记录修改原因后，可以形成新的测试样本。仍需检查是否获得数据使用许可，并去掉不必要的客户信息。测试集中的敏感资料也需要权限与保留规则。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>准备两套分别面向问答与会议的评测表，定义严重错误、人工确认与写入规则。用模拟材料完成「草稿、复核、确认、写入」的演练，检查取消和重复提交两条路径。</p>
+<h2>资料没有说明什么</h2>
+<p>客户故事没有提供完整评测集、所有阈值、成本与独立对照。公开方案也不构成对金融机构数据或业务合规的通用承诺。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://openai.com/index/morgan-stanley/">Morgan Stanley 的评测与采用案例</a></li>
+<li>回读第 7、9、10 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-20">← 上一章</a><a href="#ch-22">下一章 →</a></nav></article><article id="ch-22" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 22 章　BBVA，从试用走向组织采用</h1>
+<p>当 AI 使用从小规模试点扩展到多个部门，问题会从单个输出转向身份、数据政策、培训和支持。BBVA 的案例提供了观察组织采用的材料。</p>
+<h2>公开事实与证据</h2>
+<p>2026 年 6 月的 OpenAI 客户案例回顾 BBVA 从 2024 年的 3,000 名员工试点扩大使用。页面报告全球约 100,000 名员工使用 ChatGPT Enterprise，月活超过 70%，平均每人每周节省约三小时。材料还介绍了内部冠军用户与高级用户参与培训和推广。</p>
+<p>证据等级为 A，属于发布方报告。时间节省的测量方法和岗位差异未完整公开。本章不把平均节时换算为裁员人数或已兑现利润。</p>
+<h2>使用人数扩大以后要补什么</h2>
+<p>以下为本书分析与教学设计，证据等级为 D。个人可以自行处理的一些小问题，在组织规模下会成为持续运营工作。谁能共享助手、资料更新后谁负责、部门成员离开后权限怎样处理，都需要明确规则。</p>
+<p>培训可以解释基础使用方法，部门支持人员还需要理解实际任务。当用户不知道某类数据能否输入时，应该有清楚的查询与审批路径，而非自己猜测。</p>
+<table>
+<thead>
+<tr>
+<th>扩张环节</th>
+<th>对应的运行能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>更多用户</td>
+<td>身份管理与支持渠道</td>
+</tr>
+<tr>
+<td>更多部门</td>
+<td>数据规则与角色差异</td>
+</tr>
+<tr>
+<td>更多共享助手</td>
+<td>所有者、评测与退役机制</td>
+</tr>
+<tr>
+<td>更多业务动作</td>
+<td>接口、授权和人工确认</td>
+</tr>
+</tbody>
+</table>
+<h2>从个人节时转向流程结果</h2>
+<p>员工使用工具更熟练以后，可以选择稳定任务做流程级试点。先确认原有处理步骤与基线，再决定是否开发共享工具或集成应用。没有必要把每一种个人提示都包装成正式系统。</p>
+<p>冠军用户能够收集问题并帮助同事，但不能代替技术支持和风险审批。组织应该给他们清楚的边界，避免热心用户承担自己无权解决的问题。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>制作允许任务清单、共享助手登记表、部门支持流程和采用指标表。共享助手至少记录负责人、数据范围、使用对象、评测记录和停用办法。</p>
+<h2>资料没有说明什么</h2>
+<p>页面未提供全部国家与岗位的分布、成本、调查方法及各用例长期结果。高采用可以支持继续研究，但不能单独证明每个流程都值得自动化。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://openai.com/index/bbva/">BBVA 的联合案例</a></li>
+<li>回读第 3、16、17 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-21">← 上一章</a><a href="#ch-23">下一章 →</a></nav></article><article id="ch-23" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 23 章　TIME，在固定期限内交付</h1>
+<p>与持续演进的内部系统相比，围绕媒体发布的项目往往有明确日期。上线时间固定时，工程团队需要控制功能范围，并安排每一部分的验收。</p>
+<h2>公开事实与证据</h2>
+<p>Scale AI 的 TIME 案例介绍了围绕 2024 年年度人物内容的互动体验，包括文本与语音交互、多语言能力，以及基于 TIME 内容的问答。发布方称项目从提案到生产用时不到两个月，并进行了包含约 7,000 条攻击向量的测试。</p>
+<p>证据等级为 A，来自服务商客户故事。测试数量只能说明公开材料报告的工作量，不能证明所有攻击均被阻止，也不能替代质量结果。</p>
+<h2>多种能力需要分别验收</h2>
+<p>以下为本书分析与教学设计，证据等级为 D。文字回答正确，不意味着语音转写、翻译与播放都正确。应分别检查内容、语言、音频和界面，再测试用户从提问到获取答案的完整过程。</p>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>应独立检查的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内容问答</td>
+<td>引用是否支持回答、是否越出材料范围</td>
+</tr>
+<tr>
+<td>多语言</td>
+<td>人名、专名与语义是否保持一致</td>
+</tr>
+<tr>
+<td>语音输入</td>
+<td>噪声与识别错误怎样处理</td>
+</tr>
+<tr>
+<td>语音输出</td>
+<td>播放失败时是否仍可读文字</td>
+</tr>
+<tr>
+<td>发布页面</td>
+<td>流量、延迟与不可用时的提示</td>
+</tr>
+</tbody>
+</table>
+<h2>固定期限下的取舍</h2>
+<p>明确必须上线的体验，再设置可以取消的功能。若某种语言来不及完成合格审校，缩小支持范围比在发布时隐藏质量风险更稳妥。</p>
+<p>同时准备分层回退。语音不可用时保留文字，互动服务不可用时仍让读者访问原文。这样的设计减少单个依赖故障对内容阅读的影响。</p>
+<p>内容授权也要在开发前确认。可以读取公开网页，不代表可以任意训练、复制或商业改编其中内容。项目需要按实际许可确定可用范围。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>准备功能优先级、语言与能力测试表、内容授权记录和回退方案。安排一次上线演练，逐个关闭依赖，观察用户是否仍能完成最低限度的阅读任务。</p>
+<h2>资料没有说明什么</h2>
+<p>材料未给出完整用户规模、转化数据、全部测试结果与长期运营成本。不到两个月的交付时间不能直接用作其他项目的工期承诺。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://scale.com/customers/time">Scale AI 与 TIME 的案例</a></li>
+<li>回读第 12、13、14 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-22">← 上一章</a><a href="#ch-24">下一章 →</a></nav></article><article id="ch-24" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 24 章　GitLab，区分产品与内部应用</h1>
+<p>一家公司可以同时把模型接进商业产品，又让自己的员工使用模型。它们可能共享经验，却需要不同的数据规则和验收标准。</p>
+<h2>公开事实与证据</h2>
+<p>Anthropic 发布了两份 GitLab 案例。一份讲 Claude 进入 GitLab Duo 及模型评估，另一份讲员工使用 Claude Enterprise 处理写作、研究和其他内部任务。内部采用材料报告的满意度与效率变化，属于内部试点口径，不能当作 Duo 客户的产品效果。</p>
+<p>证据等级为 A，来源为供应商客户故事。两条应用路线的对象与测量不同，本章不合并它们的结果。</p>
+<h2>为什么要分开验收</h2>
+<p>以下是本书分析与教学设计，证据等级为 D。产品功能面对外部客户，需要考虑租户隔离、版本稳定、服务支持和功能回退。员工应用更关注允许输入的数据、共享范围、输出复核与部门采用。</p>
+<p>代码生成、漏洞解释和文档总结也不能共用一个简单成绩。代码可以通过编译与测试检查部分质量，漏洞修复还需安全审查，文档总结则要检查事实与覆盖。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>对外产品</th>
+<th>内部应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>使用对象</td>
+<td>客户与其组织</td>
+<td>员工与部门</td>
+</tr>
+<tr>
+<td>重点控制</td>
+<td>租户、发布、产品质量</td>
+<td>保密、共享与复核</td>
+</tr>
+<tr>
+<td>价值衡量</td>
+<td>客户任务与功能采用</td>
+<td>内部任务周期与质量</td>
+</tr>
+<tr>
+<td>回退方式</td>
+<td>按功能或客户群回退</td>
+<td>暂停特定用途或共享助手</td>
+</tr>
+</tbody>
+</table>
+<h2>共用经验而不混用数据</h2>
+<p>内部用户发现的术语问题，可以帮助改善说明与评测。但客户代码和商业资料不能因此自动进入内部实验。形成共享经验时，应保留脱敏、授权与使用范围。</p>
+<p>模型选择也应按任务验证。增加供应商可能带来质量或可用性收益，同时增加配置、监控和维护工作。只有真实测试支持相应收益时，才值得保留这种复杂性。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>制作两份分开的验收表，再建立任务级模型登记表。记录允许数据、质量要求、回退模型与责任人。选择一个模型变更，演练按功能回退，确认不会影响无关功能。</p>
+<h2>资料没有说明什么</h2>
+<p>公开页面未给出全部任务成绩、内部调查样本、成本和长期留存。材料中的主观效率感受不等同于独立测量的工程产能。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://claude.com/customers/gitlab">GitLab 产品集成案例</a></li>
+<li><a href="https://claude.com/customers/gitlab-enterprise">GitLab 内部采用案例</a></li>
+<li>回读第 9、14、17 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-23">← 上一章</a><a href="#ch-25">下一章 →</a></nav></article><article id="ch-25" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 25 章　Assembled，客服系统的韧性</h1>
+<p>客服应用既要处理普通问题，也要在模型或工具故障时继续服务。Assembled 的案例把评测、人机分工与依赖切换联系起来。</p>
+<h2>公开事实与证据</h2>
+<p>Anthropic 的案例介绍 Assembled Assist 如何评测回复、利用人工修改改进系统，并在 AI 与人工之间安排任务。材料还报告，一次其他模型供应商故障期间，团队在约二十分钟内将工作流切换到 Claude。</p>
+<p>证据等级为 A，属于供应商客户故事。公开说明不能证明切换后的每一种任务质量完全相同，也不能保证其他系统获得相同恢复速度。</p>
+<h2>人工修改怎样成为证据</h2>
+<p>以下为本书分析与教学设计，证据等级为 D。客服修改了回答，可能是在纠正事实，也可能只是改变语气。应先给修改分类，再决定是否进入标准样本。人工编辑同样可能出错，因此仍需抽样复核。</p>
+<p>路由也需要评测。身份异常、政策例外和无法撤销的操作，应有明确接管条件。系统转交人工时，把已核实的信息与待处理事项一起交过去，减少用户重复解释。</p>
+<table>
+<thead>
+<tr>
+<th>要评测的对象</th>
+<th>可观察的结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>回答</td>
+<td>事实、政策、语气与完整性</td>
+</tr>
+<tr>
+<td>路由</td>
+<td>是否在需要时转交正确团队</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>参数、权限、执行状态</td>
+</tr>
+<tr>
+<td>接管</td>
+<td>背景是否完整、是否重复询问</td>
+</tr>
+<tr>
+<td>最终服务</td>
+<td>解决、重开、再次联系与投诉</td>
+</tr>
+</tbody>
+</table>
+<h2>切换能力需要平时准备</h2>
+<p>备用模型应通过关键任务与工具测试。故障发生时，可以先进入保守模式，降低自动执行范围，保留人工渠道。恢复服务之后继续观察质量，不能只检查接口是否响应。</p>
+<p>自动化比例越高，人工队列的组成也可能改变。剩下的任务更复杂时，不能拿过去平均处理时长直接评价人工团队。运行指标要反映任务难度的变化。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>准备人工修改标签、路由评测集、接管摘要格式和依赖故障演练。对同一批高风险样本比较主模型与备用模型，写下差异以及切换时必须关闭的功能。</p>
+<h2>资料没有说明什么</h2>
+<p>公开材料未给出全部评测器误差、客户分布、切换过程中的功能限制和成本。某客户的结果不能直接代表所有部署。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://claude.com/customers/assembled">Assembled 的公开案例</a></li>
+<li>回读第 9、15、16 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-24">← 上一章</a><a href="#ch-26">下一章 →</a></nav></article><article id="ch-26" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 26 章　Klarna，自动化指标的边界</h1>
+<p>客服自动化最容易被浓缩成几个大数字。Klarna 的案例适合放在后面阅读，因为读者此时已经能够区分工作量、服务质量与财务结果。</p>
+<h2>公开事实与证据</h2>
+<p>2024 年的 OpenAI 客户案例报告，Klarna 助手在首月处理约 230 万次对话，约占客服聊天的三分之二；发布方将其工作量描述为相当于 700 名全职客服。页面还报告处理时间与重复咨询的改善。</p>
+<p>证据等级为 A，属于联合发布方口径。「相当于 700 人的工作量」不能直接改写为实际裁掉 700 人。预测的财务贡献也不能与后来披露的实际成本节省混为一项数据。</p>
+<h2>怎样检查自动化是否有效</h2>
+<p>以下为本书分析与教学设计，证据等级为 D。一次聊天结束，不代表用户问题解决。系统可能把用户引导到别的渠道，用户也可能稍后再次联系。评测需要跨越单次对话，观察重开、重复咨询、投诉与错误操作。</p>
+<table>
+<thead>
+<tr>
+<th>常见指标</th>
+<th>必须补问的口径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动化率</td>
+<td>哪类任务、哪个渠道、是否含转人工</td>
+</tr>
+<tr>
+<td>处理时长</td>
+<td>只看对话还是包含后续处理</td>
+</tr>
+<tr>
+<td>解决率</td>
+<td>谁确认解决、是否跟踪再次联系</td>
+</tr>
+<tr>
+<td>满意度</td>
+<td>谁回答调查、未回应者如何处理</td>
+</tr>
+<tr>
+<td>成本节省</td>
+<td>是否扣除模型、复核与支持成本</td>
+</tr>
+</tbody>
+</table>
+<h2>保留服务选择与接管</h2>
+<p>低风险、规则清楚的查询可以先尝试自动处理。涉及身份、争议或特殊政策的情况，需要明确的人工路径。用户不应为了获得人工帮助而反复与系统争辩。</p>
+<p>即使低风险任务自动化效果稳定，也要监测流量变化。新的政策、产品或语言都可能改变输入分布。扩大范围之前，用新的样本检查质量，而非直接延用首月结果。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>制作一个分任务客服报告，同时显示自动处理、人工接管、再次联系与投诉。把严重错误单独列出，并为其设置暂停条件。最后把时间节省与实际支出变化分开计算。</p>
+<h2>资料没有说明什么</h2>
+<p>早期案例没有披露全部客户分组、长期跟踪与独立对照。它能说明发布方报告的特定阶段结果，无法支持「客服可以全部自动化」或「客服自动化必然失败」这样的结论。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://openai.com/index/klarna/">Klarna 的早期客服案例</a></li>
+<li><a href="https://www.sec.gov/Archives/edgar/data/2003292/000200329225000036/klarnagroupplcf-1a4.htm">Klarna 的后续上市申报材料</a></li>
+<li>回读第 3、9、10 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-25">← 上一章</a><a href="#ch-27">下一章 →</a></nav></article><article id="ch-27" hidden><p class="eyebrow">第四篇　案例拆解</p><h1>第 27 章　Datawhale，从具体业务开始</h1>
+<p>企业 AI 实践不只发生在大型金融与软件公司。Datawhale FDE100 收录的项目还涉及制造、零售和采购。本章选择两个资料相对完整的案例，观察培训与数据治理怎样进入交付。</p>
+<h2>公开事实与证据</h2>
+<p>Datawhale 的制造业培训案例介绍，一家德国零部件企业将经验和文档整理为可检索知识，并接入已有培训平台。发布材料报告带教时间从每周约十小时降至三小时。</p>
+<p>另一个工业物料案例介绍，团队先清理 ERP 中重复与不一致的数据，再增加语义检索，帮助用户找到已有物料并减少重复录入。页面没有披露可核对的最终采购节省金额。</p>
+<p>证据等级为 C，来自社区审核后脱敏发布的案例自述。页面上的审核标识不等同于独立效果审计。中文实践社区收录的项目也可能发生在海外，不能全部称为中国境内项目。</p>
+<h2>培训任务怎样使用知识系统</h2>
+<p>以下为本书分析与教学设计，证据等级为 D。培训问答应区分解释材料与实际操作授权。用户能够答对问题，不一定具备安全操作设备的能力。专业人员仍需按照企业规则进行实际验收。</p>
+<p>知识整理时，标准步骤与例外条件应一起保留。经验中的适用范围缺失，可能使新员工把局部方法用于不合适的设备或材料。</p>
+<table>
+<thead>
+<tr>
+<th>培训环节</th>
+<th>交付时需要检查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资料整理</td>
+<td>版本、适用设备和确认人</td>
+</tr>
+<tr>
+<td>问答</td>
+<td>证据、拒答与专业人员升级</td>
+</tr>
+<tr>
+<td>学习跟踪</td>
+<td>完成记录是否真实反映掌握情况</td>
+</tr>
+<tr>
+<td>操作验收</td>
+<td>是否仍由获授权人员确认</td>
+</tr>
+</tbody>
+</table>
+<h2>物料检索为什么先处理数据</h2>
+<p>同一物料有不同名称与单位时，语义相似度无法独自决定它们能否合并。规格、材料和使用条件可能具有关键差异。数据清理应保留原记录与映射，由业务人员确认重要变更。</p>
+<p>检索改善后，价值还需要沿着录入、采购与库存记录继续观察。搜索更容易只是中间结果，实际减少的重复采购才与业务支出相连。没有最终数字时，保留测量办法比补一个看起来合理的收益更有用。</p>
+<h2>可复用的 FDE 工作包</h2>
+<p>培训项目可以留下知识版本表、学习任务与实际验收规则。物料项目可以留下字段标准、候选重复清单、确认记录和采购结果跟踪。两者都应嵌入已有工作流程，让维护人能够持续更新。</p>
+<h2>资料没有说明什么</h2>
+<p>案例没有披露客户完整身份、全部统计样本、独立审计与长期成本。另一些页面存在摘要与正文不一致的地方，因此本书没有照单收录所有案例或页面指标。</p>
+<h2>用案例检验自己的方案</h2>
+<p>选一个自己能合法接触的任务，先留下当前流程和样本，定义允许的数据与动作，再做一个可以测试的完整小应用。请真实使用者判断结果，记录失败，完成交接。前三篇介绍的方法，最终都需要在这样的工作中接受检验。</p>
+<h2>来源与回读</h2>
+<ul>
+<li><a href="https://fde100.datawhale.cn/cases/cases-009">Datawhale 制造业培训案例</a></li>
+<li><a href="https://fde100.datawhale.cn/cases/cases-024">Datawhale 工业物料案例</a></li>
+<li><a href="https://fde100.datawhale.cn/cases">Datawhale 案例目录</a></li>
+<li>回读第 6、7、16 章。</li>
+</ul>
+<nav class="chapter-nav" aria-label="章节导航"><a href="#ch-26">← 上一章</a><a href="#home">返回总目录</a></nav></article><footer class="foot">重编版 3.0 · 章节 Markdown 与 PDF 同源。案例事实、分析与未知项分别标明。<br>本书为独立编写，不代表案例公司或培训机构立场。</footer></main>
+<script>
+const sidebar=document.getElementById('sidebar'),menu=document.querySelector('.menu');
+const views=[document.getElementById('home'),...document.querySelectorAll('article')];
+function route(){let key=location.hash.slice(1)||'home';let view=views.find(v=>v.id===key);if(!view){key='home';view=views[0]}for(const v of views)v.hidden=v!==view;for(const a of sidebar.querySelectorAll('nav a')){if(a.hash==='#'+key)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')}sidebar.classList.remove('open');menu.setAttribute('aria-expanded','false');document.title=key==='home'?'FDE橙皮书 · 从业务现场到 AI 系统交付':view.querySelector('h1').textContent+' · FDE橙皮书';window.scrollTo({top:0,behavior:'instant'});}
+window.addEventListener('hashchange',route);route();
+menu.addEventListener('click',()=>{const opened=sidebar.classList.toggle('open');menu.setAttribute('aria-expanded',String(opened))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){sidebar.classList.remove('open');menu.setAttribute('aria-expanded','false')}});
+const theme=document.getElementById('theme');let large=false;
+try{theme.value=localStorage.getItem('fde-theme')||'paper'}catch(e){}document.body.dataset.theme=theme.value;
+theme.addEventListener('change',()=>{document.body.dataset.theme=theme.value;try{localStorage.setItem('fde-theme',theme.value)}catch(e){}});
+document.getElementById('font').addEventListener('click',e=>{large=!large;document.documentElement.style.setProperty('--text',large?'21px':'18px');document.querySelectorAll('article').forEach(a=>a.style.fontSize=large?'21px':'');e.target.textContent=large?'字号 A−':'字号 A+'});
+</script></body></html>

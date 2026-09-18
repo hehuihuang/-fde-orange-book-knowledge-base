@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Maintain a source-backed Chinese knowledge base about Forward Deployed Engineering. Keep the orange book, detailed cases, reusable templates, and evidence ledger consistent.
+Maintain a source-backed Chinese book about Forward Deployed Engineering, titled FDE橙皮书. The book/ chapters are the current manuscript, organized as foundations, technical knowledge, delivery practice and final cases. Keep the PDF, reader HTML, detailed research, templates, and evidence ledger consistent. Preserve the legacy research and old editions.
 
 ## Content rules
 
@@ -18,6 +18,10 @@ Maintain a source-backed Chinese knowledge base about Forward Deployed Engineeri
 
 Run `python3 scripts/validate_kb.py` before release. Broken relative links, empty files, missing case evidence labels, or placeholder text are release blockers.
 
+Run `uv run --with pypdf python scripts/validate_book.py` for the current book. Inspect rendered PDF pages and the mobile/desktop reader after layout changes.
+
 ## Build
 
-Run `uv run --with python-docx python build_book.py` to regenerate the editable book.
+Run `uv run --with reportlab --with fonttools --with markdown-it-py --with pypdf python scripts/build_edition.py` to regenerate the current PDF, HTML, chapter directory and edition metadata. The builder does not update the cover PNG; render the PDF first page to dist/cover.png with pdftoppm after changing the cover.
+
+Run `uv run --with python-docx python build_book.py` only for the legacy editable Word edition.

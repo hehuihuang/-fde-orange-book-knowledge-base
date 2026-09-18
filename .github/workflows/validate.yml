@@ -1,4 +1,4 @@
-name: Validate knowledge base
+name: Validate FDE Orange Book
 
 on:
   push:
@@ -17,3 +17,7 @@ jobs:
           python-version: "3.12"
       - name: Check structure and local links
         run: python3 scripts/validate_kb.py
+      - name: Install PDF inspector
+        run: python -m pip install pypdf
+      - name: Check book and PDF consistency
+        run: python3 scripts/validate_book.py

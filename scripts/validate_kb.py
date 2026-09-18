@@ -10,7 +10,7 @@ from urllib.parse import unquote
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTENT_DIRS = [ROOT / "knowledge-base", ROOT / "templates", ROOT / "research"]
+CONTENT_DIRS = [ROOT / "knowledge-base", ROOT / "templates", ROOT / "research", ROOT / "book"]
 PLACEHOLDER_PATTERNS = [
     re.compile(r"\bTODO\b", re.I),
     re.compile(r"\bTBD\b", re.I),
