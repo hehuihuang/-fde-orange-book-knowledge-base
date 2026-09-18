@@ -2,15 +2,17 @@
 
 ### 从业务现场到 AI 系统交付
 
-一本面向转型工程师、企业 AI 交付人员与业务负责人的中文实践书。先建立岗位、业务和技术基础，再沿着需求、试点、上线与交接学习交付，最后用真实案例检查方法。
+一本面向转型工程师、企业 AI 交付人员与业务负责人的中文实践书。从业务对象、事件与状态学起，深入模型、数据、检索、Agent、评测和安全，再沿着试点、上线与交接学习交付。八个企业案例之后，完成带代码与测试的原创项目。
 
 <img src="dist/cover.png" alt="FDE橙皮书暖色封面" width="320">
 
-重编版 3.0 · 2026 年 9 月 18 日 · 四篇 27 章 · 整本 PDF 63 页
+深入实战版 4.0 · 2026 年 9 月 18 日 · 四篇 27 章 · 整本 PDF 197 页
 
 **[下载整本 PDF](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.pdf)** · [从阅读说明开始](book/00-阅读说明.md) · [独立目录](book/目录.md)
 
-每章都是独立 Markdown，点击下方章节即可在线阅读。也可[下载暖色阅读版 HTML](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.html)；完整下载仓库后打开 `dist/FDE橙皮书.html`，即可使用目录、章节导航、三种暖色纸色和字号调整，PDF 下载按钮也可用。GitHub 文件页只展示 HTML 源码，阅读版尚未部署为网站。
+每章都是独立 Markdown，点击下方章节即可在线阅读。也可[下载暖色阅读版 HTML](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.html)；完整下载仓库后打开 `dist/FDE橙皮书.html`，即可使用全书目录、本章目录、章节导航、三种暖色纸色和字号调整，PDF 下载按钮也可用。GitHub 文件页只展示 HTML 源码，阅读版尚未部署为网站。
+
+本版的技术篇包含 Attention 与 KV 预算、数据版本及事务、BM25 与 RRF、Agent 状态控制、置信区间与评审器校准、注入防护和审批绑定。公式有教学参数和适用条件，章节保留故障分析、练习与答案线索。项目使用合成数据，离线运行，无需模型密钥；不将本地测试宣称为真实客户或模型效果。
 
 ## 全书目录
 
@@ -47,9 +49,9 @@
 17. [团队组织与复用](book/17-团队组织与复用.md)
 18. [学习路线与作品集](book/18-学习路线与作品集.md)
 
-### 第四篇　案例拆解
+### 第四篇　案例与完整项目
 
-最后一篇集中讲案例，每章包含公开事实、证据等级、本书分析、可复用工作包与资料缺口。
+八个海外企业案例解释对象关联、并发、评测、采用、固定期限、模型回退、接管与效果口径，事实和原创教学推演分开。最后一章按数据、检索、草稿、审批、幂等写入、测试和交接完成整项工程。
 
 19. [Airbus，让数据进入维修决策](book/19-Airbus让数据进入维修决策.md)
 20. [Tampa General，医院运营协同](book/20-TampaGeneral医院运营协同.md)
@@ -59,7 +61,7 @@
 24. [GitLab，区分产品与内部应用](book/24-GitLab区分产品与内部应用.md)
 25. [Assembled，客服系统的韧性](book/25-Assembled客服系统的韧性.md)
 26. [Klarna，自动化指标的边界](book/26-Klarna自动化指标的边界.md)
-27. [Datawhale，从具体业务开始](book/27-Datawhale从具体业务开始.md)
+27. [企业物料与采购助手完整实战](book/27-Datawhale从具体业务开始.md)
 
 ## 资料与延伸阅读
 
@@ -67,6 +69,7 @@
 
 - [Datawhale FDE100](https://fde100.datawhale.cn/cases)，补充制造业培训与工业物料实践。
 - [范冰的公开 FDE 指南](https://github.com/xdash/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer)，推荐原作。本书独立编写，不复制其正文，其商业改编需作者授权。
+- [李博杰 AI Agent 开源书](https://github.com/bojieli/ai-agent-book)和 [Awesome FDE Roadmap](https://github.com/pierpaolo28/Awesome-FDE-Roadmap)，用于研究主题覆盖，再回读论文、协议和官方工程资料。本书的结构、教学数据、表达和代码独立设计。
 - Palantir、Anthropic、Hugging Face、DeepLearning.AI 的学习入口集中在[第 18 章](book/18-学习路线与作品集.md)。
 - [公开来源台账](research/01-source-ledger.md)记录材料与限制，[更新记录](CHANGELOG.md)记录版本变化。
 
@@ -75,6 +78,8 @@
 新版以 `book/` 为主稿。此前的书稿、详细研究与社区专题继续保留，供查证和深入阅读。
 
 - [项目模板](templates/README.md)
+- [第 27 章离线伴随项目](examples/material_assistant/README.md)，Python 标准库与内存 SQLite，31 项测试覆盖权限、澄清、单位、审批、版本、幂等与事务回滚。
+- [上一版 63 页 PDF](dist/archive/FDE橙皮书-v3.0.pdf)，保留用于对照。
 - [八个海外案例的扩展研究](knowledge-base/03-海外案例/00-案例索引.md)
 - [社区 Top 100 延伸资料](knowledge-base/07-中国社区实践/02-破局FDE点赞Top100分类索引.md)
 - [旧版书稿](manuscript/00-frontmatter.md)
@@ -91,6 +96,8 @@
 ```bash
 uv run --with reportlab --with fonttools --with markdown-it-py --with pypdf python scripts/build_edition.py
 python3 scripts/validate_kb.py
+python3 scripts/verify_code_samples.py
+python3 -m unittest discover -s examples/material_assistant -v
 uv run --with pypdf python scripts/validate_book.py
 ```
 

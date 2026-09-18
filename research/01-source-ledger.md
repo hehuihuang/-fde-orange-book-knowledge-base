@@ -1,5 +1,28 @@
 # 公开来源台账
 
+## 深入实战版核验　2026-09-18
+
+本轮对参考书进行主题研究，正文、结构化教学数据、演算及配套代码独立编写。公开客户资料只证明材料明确报告的事实。新增系统设计、错误演练与项目步骤标记为本书教学设计，不宣称复原客户实现。
+
+| ID | 来源 | 本轮用途 | 许可与限制 |
+| --- | --- | --- | --- |
+| D01 | [李博杰 AI Agent 开源书](https://github.com/bojieli/ai-agent-book) | 检查上下文、工具、评测与运行控制主题 | Apache-2.0；本书不复制其正文或代码 |
+| D02 | [范冰公开 FDE 指南](https://github.com/xdash/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer) | 对照岗位、业务与交付主题 | 免费阅读与非商业分享，商业改编需书面许可；本书独立表达，不作商业改编 |
+| D03 | [Awesome FDE Roadmap](https://github.com/pierpaolo28/Awesome-FDE-Roadmap) | 对照数据工程、系统设计与学习范围 | MIT；清单中的岗位比例、工期及工具推荐不视为通用事实 |
+| D04 | [Transformer 原始论文](https://arxiv.org/abs/1706.03762) | 注意力公式及机制边界 | 只讨论适用架构，不推定当前全部商业模型实现 |
+| D05 | [PagedAttention 论文](https://arxiv.org/abs/2309.06180) | KV 内存管理与容量推演 | 教学参数由作者设计，非厂商实测 |
+| D06 | [长上下文位置研究](https://arxiv.org/abs/2307.03172) | 证据顺序与回归测试 | 结果限于论文被测任务及模型 |
+| D07 | [MCP 架构文档](https://modelcontextprotocol.io/docs/learn/architecture) | host、client、server 及协议边界 | 本轮文档重定向到 2026-07-28 版；实施时固定协议版本 |
+| D08 | [PostgreSQL 显式锁文档](https://www.postgresql.org/docs/current/explicit-locking.html) | 资源并发教学与数据库责任 | 当前版本文档，示意 SQL 不构成完整生产实现 |
+| D09 | [Google SRE 过载处理](https://sre.google/sre-book/handling-overload/) | 故障切换、限流与重试范围 | 本书自行设计客服故障演练 |
+| D10 | [Anthropic Agent 评测工程说明](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) | 核对任务与轨迹评测主题 | 发布方工程经验，与本书测试结果分开 |
+
+BBVA 页面在顶部将超过 70% 活跃使用标为月活，在结果汇总标为周活，两个口径不一致。第 22 章保留该问题，不以该比例做精确比较。每周节时仍属于发布方报告，不外推为已兑现利润。
+
+最后的物料与采购助手是原创离线教学项目，证据等级 D。合成数据、确定性规划器与本地测试不能证明真实 ERP 接入、模型质量或生产收益。完整实现及运行方式见 [项目说明](../examples/material_assistant/README.md)。
+
+具体研究与复算见 [理论交付笔记](deep-theory-notes.md)、[技术笔记](deep-tech-notes.md)和 [项目实测笔记](capstone-notes.md)。最终验收对 17 个 Python 片段做语法检查，10 个标记可独立运行的片段实际通过断言。Wilson 区间初稿下界误写已在集中执行中发现并修正，90/100、z 为 1.96 的区间为约 0.82563 至 0.94477。
+
 ## 图书重编增补　2026-09-17 核验，2026-09-18 发布
 
 原有台账继续保留。新版基础章节是本书方法建议，案例的企业结果与教学设计分别标注。官方客户故事说明来源直接，不等于独立效果审计。

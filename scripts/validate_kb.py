@@ -10,7 +10,7 @@ from urllib.parse import unquote
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTENT_DIRS = [ROOT / "knowledge-base", ROOT / "templates", ROOT / "research", ROOT / "book"]
+CONTENT_DIRS = [ROOT / "knowledge-base", ROOT / "templates", ROOT / "research", ROOT / "book", ROOT / "examples"]
 PLACEHOLDER_PATTERNS = [
     re.compile(r"\bTODO\b", re.I),
     re.compile(r"\bTBD\b", re.I),
@@ -45,7 +45,10 @@ def validate() -> list[str]:
                 errors.append(
                     f"release placeholder {pattern.pattern!r}: {path.relative_to(ROOT)}"
                 )
-        for target in LINK_RE.findall(text):
+        # Example indexing/calls such as action["args"](...) are code, not links.
+        prose = re.sub(r'^```[^\n]*\n.*?^```\s*$', '', text, flags=re.M | re.S)
+        prose = re.sub(r'`[^`\n]*`', '', prose)
+        for target in LINK_RE.findall(prose):
             target = target.strip().split()[0].strip("<>")
             if target.startswith(("http://", "https://", "mailto:", "#")):
                 continue
