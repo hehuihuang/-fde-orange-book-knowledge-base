@@ -4,6 +4,7 @@
   "result_pages": 13,
   "result_records": 1274,
   "screening_note": "逐页检索全部结果后，优先选择包含具体业务现场、商单过程或驻场交付叙述的材料。活动通知、概念讨论、课程推广和只有标题的线索不扩写为案例。前三篇回读公开飞书正文，第四篇只使用官网可见导读。",
+  "case_scope": "21 篇实战类主题：4 篇有独立长篇章节，17 篇以案例文章集收录。实战类不等于已验收客户项目；其中部分材料是进行中的项目、个人服务或方法复盘。",
   "case_articles": [
     {
       "chapter": 28,
@@ -45,5 +46,24 @@
       "public_document_url": null,
       "evidence_limit": "只能核对官网导读；未采用搜索摘要中的架构、百分比或停机结果"
     }
+  ],
+  "additional_case_articles": [
+    {"rank": 8, "topic_id": "22258842455154411", "title": "部署 Obsidian + Claude Code 知识库", "author": "攀登者", "website_url": "https://aipoju.com/topic-details/22258842455154411", "evidence_limit": "官网导读；外链全文未读，收入和持续使用未核验"},
+    {"rank": 13, "topic_id": "45544225211444288", "title": "50 万+业绩背后的企业服务踩坑", "author": "小林", "website_url": "https://aipoju.com/topic-details/45544225211444288", "evidence_limit": "作者经验；业绩、订单和成本无独立核验"},
+    {"rank": 16, "topic_id": "14425511224421222", "title": "两个进行中的 FDE 项目：网店与电子厂", "author": "伍哥_广州", "website_url": "https://aipoju.com/topic-details/14425511224421222", "evidence_limit": "进行中项目；无最终上线和收益指标"},
+    {"rank": 20, "topic_id": "22258881525444581", "title": "消费品行业 FDE：AI 与人的现场磨合", "author": "潘达", "website_url": "https://aipoju.com/topic-details/22258881525444581", "evidence_limit": "长文导读；完整现场记录和结果未核验"},
+    {"rank": 21, "topic_id": "82258881525544422", "title": "从 AI 聊天到业务工作系统", "author": "王庆", "website_url": "https://aipoju.com/topic-details/82258881525544422", "evidence_limit": "社区复盘；客户系统和生产指标未公开"},
+    {"rank": 30, "topic_id": "55521118212841124", "title": "FDE 的百万之路", "author": "右军", "website_url": "https://aipoju.com/topic-details/55521118212841124", "evidence_limit": "个人经历；营收和商业路径未独立核验"},
+    {"rank": 35, "topic_id": "45544145254145818", "title": "APP 开发流程的 Agent 与 Skill 改造", "author": "卓峰", "website_url": "https://aipoju.com/topic-details/45544145254145818", "evidence_limit": "导读；成本、线上质量和收益未核验"},
+    {"rank": 47, "topic_id": "82258815145225852", "title": "从逗号事故到企业 Agent 工作流", "author": "成都大书", "website_url": "https://aipoju.com/topic-details/82258815145225852", "evidence_limit": "事故细节、金额和责任认定未公开"},
+    {"rank": 53, "topic_id": "55522488148814114", "title": "WorkBuddy 短视频带货共学营复盘", "author": "攀哥用AIP做文创变现", "website_url": "https://aipoju.com/topic-details/55522488148814114", "evidence_limit": "个人内容实践；不能推出企业服务转化率"},
+    {"rank": 56, "topic_id": "14425582185825882", "title": "一个不会写代码的 23 岁：在传统公司做四个月 FDE", "author": "小鱼AI成长日记", "website_url": "https://aipoju.com/topic-details/14425582185825882", "evidence_limit": "个人经历；项目效果和生产质量未审计"},
+    {"rank": 64, "topic_id": "45548814128454528", "title": "从 PPT 单次交付到生产系统", "author": "礼尚往来", "website_url": "https://aipoju.com/topic-details/45548814128454528", "evidence_limit": "个人服务复盘；长期采用和维护成本未核验"},
+    {"rank": 65, "topic_id": "55521141815844584", "title": "用 Aily 与多维表格做客服问题分诊", "author": "书小哥", "website_url": "https://aipoju.com/topic-details/55521141815844584", "evidence_limit": "工具实践；处理量和准确率未核验"},
+    {"rank": 72, "topic_id": "14425582821422152", "title": "产品经理如何走进 GEO 与 FDE 创业", "author": "韩四四", "website_url": "https://aipoju.com/topic-details/14425582821422152", "evidence_limit": "个人转型；商业化数字未独立核验"},
+    {"rank": 74, "topic_id": "22258824524484811", "title": "AI 夜校、培训项目与企业服务生态", "author": "江校长", "website_url": "https://aipoju.com/topic-details/22258824524484811", "evidence_limit": "作者经历；项目合同和收益口径未公开"},
+    {"rank": 88, "topic_id": "22258842425885541", "title": "国企内部 AI 实践：业务需求翻译", "author": "梓惠", "website_url": "https://aipoju.com/topic-details/22258842425885541", "evidence_limit": "内部实践；客户数量、生产指标和安全审查未公开"},
+    {"rank": 93, "topic_id": "14425558845485112", "title": "从数据到商机：灯具厂中东市场发现", "author": "一只阿木木", "website_url": "https://aipoju.com/topic-details/14425558845485112", "evidence_limit": "市场线索复盘；增长、回款和预测未独立核验"},
+    {"rank": 96, "topic_id": "82258844525221482", "title": "一人用 AI 编程支撑商业化软件", "author": "天狼", "website_url": "https://aipoju.com/topic-details/82258844525221482", "evidence_limit": "外部账本未读；商业规模、客户指标和成本未核验"}
   ]
 }

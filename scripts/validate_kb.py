@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import json
 import sys
 from pathlib import Path
 from urllib.parse import unquote
@@ -80,6 +81,28 @@ def validate() -> list[str]:
             if prefix not in ledger_text:
                 errors.append(f"source ledger missing section identifier: {prefix}")
 
+    case_article = ROOT / "knowledge-base" / "07-中国社区实践" / "08-FDE实战案例文章集.md"
+    case_manifest = ROOT / "research" / "breakout-2026-09-19-fde-cases.json"
+    if not case_article.exists():
+        errors.append(f"missing FDE case article collection: {case_article.relative_to(ROOT)}")
+    else:
+        case_text = case_article.read_text(encoding="utf-8")
+        article_headings = re.findall(r"^## (?!阅读与证据索引)(.+)$", case_text, re.M)
+        if len(article_headings) != 21:
+            errors.append(f"expected 21 FDE case articles, found {len(article_headings)}")
+        if len(re.findall(r"https://aipoju\.com/topic-details/", case_text)) != 21:
+            errors.append("FDE case article collection must cite 21 topic pages")
+    if not case_manifest.exists():
+        errors.append(f"missing FDE case manifest: {case_manifest.relative_to(ROOT)}")
+    else:
+        manifest = json.loads(case_manifest.read_text(encoding="utf-8"))
+        listed = len(manifest.get("case_articles", [])) + len(manifest.get("additional_case_articles", []))
+        if listed != 21:
+            errors.append(f"expected 21 entries in FDE case manifest, found {listed}")
+    case_pdf = ROOT / "dist" / "FDE实战案例文章集.pdf"
+    if not case_pdf.exists() or case_pdf.stat().st_size < 100_000:
+        errors.append("missing or unexpectedly small FDE case collection PDF")
+
     return errors
 
 
@@ -93,7 +116,7 @@ def main() -> int:
 
     files = markdown_files()
     chars = sum(len(path.read_text(encoding="utf-8")) for path in files if path.exists())
-    print(f"OK: {len(files)} Markdown files, {chars:,} characters, 8 detailed cases")
+    print(f"OK: {len(files)} Markdown files, {chars:,} characters, 8 overseas cases, 21 FDE case articles")
     return 0
 
 

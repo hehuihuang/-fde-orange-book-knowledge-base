@@ -10,7 +10,7 @@
 
 **[下载整本 PDF](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.pdf)** · [从阅读说明开始](book/00-阅读说明.md) · [独立目录](book/目录.md)
 
-每章都是独立 Markdown，点击下方章节即可在线阅读。也可[下载暖色阅读版 HTML](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.html)；完整下载仓库后打开 `dist/FDE橙皮书.html`，即可使用全书目录、本章目录、章节导航、三种暖色纸色和字号调整，PDF 下载按钮也可用。GitHub 文件页只展示 HTML 源码，阅读版尚未部署为网站。
+每章都是独立 Markdown，点击下方章节即可在线阅读。21 篇破局实战案例另见[案例文章集](knowledge-base/07-中国社区实践/08-FDE实战案例文章集.md)；整本 PDF 以 31 章主书为范围，也可[单独下载案例集 PDF](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B%E6%96%87%E7%AB%A0%E9%9B%86.pdf)。也可[下载暖色阅读版 HTML](https://github.com/hehuihuang/-fde-orange-book-knowledge-base/raw/refs/heads/main/dist/FDE%E6%A9%99%E7%9A%AE%E4%B9%A6.html)；完整下载仓库后打开 `dist/FDE橙皮书.html`，即可使用全书目录、本章目录、章节导航、三种暖色纸色和字号调整，PDF 下载按钮也可用。GitHub 文件页只展示 HTML 源码，阅读版尚未部署为网站。
 
 本版的技术篇包含 Attention 与 KV 预算、数据版本及事务、BM25 与 RRF、Agent 状态控制、置信区间与评审器校准、注入防护和审批绑定。公式有教学参数和适用条件，章节保留故障分析、练习与答案线索。项目使用合成数据，离线运行，无需模型密钥；不将本地测试宣称为真实客户或模型效果。
 
@@ -86,6 +86,7 @@
 - [上一版 63 页 PDF](dist/archive/FDE橙皮书-v3.0.pdf)，保留用于对照。
 - [八个海外案例的扩展研究](knowledge-base/03-海外案例/00-案例索引.md)
 - [社区 Top 100 延伸资料](knowledge-base/07-中国社区实践/02-破局FDE点赞Top100分类索引.md)
+- [21 篇破局 FDE 实战案例文章](knowledge-base/07-中国社区实践/08-FDE实战案例文章集.md)
 - [旧版书稿](manuscript/00-frontmatter.md)
 - [旧版 PDF](dist/FDE橙皮书-从业务问题到生产系统-v1.0.pdf) · [旧版 Word](dist/FDE橙皮书-从业务问题到生产系统-v1.0.docx)
 
@@ -99,6 +100,7 @@
 
 ```bash
 uv run --with reportlab --with fonttools --with markdown-it-py --with pypdf python scripts/build_edition.py
+python scripts/build_case_collection_pdf.py
 python3 scripts/validate_kb.py
 python3 scripts/verify_code_samples.py
 python3 -m unittest discover -s examples/material_assistant -v
