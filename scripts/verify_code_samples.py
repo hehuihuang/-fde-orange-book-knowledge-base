@@ -10,11 +10,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-meta = json.loads((ROOT / 'book/book.json').read_text())
+meta = json.loads((ROOT / 'book/book.json').read_text(encoding='utf-8'))
 checked = executed = 0
 for part in meta['parts']:
     for name in part['chapters']:
-        text = (ROOT / 'book' / name).read_text()
+        text = (ROOT / 'book' / name).read_text(encoding='utf-8')
         fences = re.findall(r'^```(python|py)([^\n]*)\n(.*?)^```\s*$', text, re.M | re.S)
         for index, (_, info, code) in enumerate(fences, 1):
             label = f'{name}: Python block {index}'

@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book'
 OUT = ROOT / 'dist'
 QA = ROOT / 'qa' / 'edition4'
-META = json.loads((BOOK / 'book.json').read_text())
+META = json.loads((BOOK / 'book.json').read_text(encoding='utf-8'))
 MD = MarkdownIt('commonmark', {'html': False}).enable('table')
 INK = colors.HexColor('#292524')
 MUTED = colors.HexColor('#57534E')
@@ -45,7 +45,7 @@ WIDTH = W - MARGIN * 2
 
 
 def title_of(name):
-    return (BOOK / name).read_text().splitlines()[0].removeprefix('# ')
+    return (BOOK / name).read_text(encoding='utf-8').splitlines()[0].removeprefix('# ')
 
 
 def register_fonts():
@@ -62,7 +62,7 @@ def verify_glyphs():
     font = FontToolsFont(ROOT / 'fonts' / 'NotoSansSC.ttf')
     cmap = font.getBestCmap()
     names = [META['frontmatter']] + [f for p in META['parts'] for f in p['chapters']]
-    content = ''.join((BOOK / name).read_text() for name in names)
+    content = ''.join((BOOK / name).read_text(encoding='utf-8') for name in names)
     missing = sorted(set(c for c in content if not c.isspace() and ord(c) not in cmap))
     if missing:
         raise ValueError(f'Font does not cover these manuscript glyphs: {missing}')
@@ -137,7 +137,7 @@ def inline(tokens):
 
 
 def markdown_flow(name, key, section_level=2):
-    tokens = MD.parse((BOOK / name).read_text())
+    tokens = MD.parse((BOOK / name).read_text(encoding='utf-8'))
     flows = []
     i = 0
     in_list = 0
@@ -235,7 +235,7 @@ class BookDoc(BaseDocTemplate):
             c.setFont('Book', 13)
             c.drawString(MARGIN, H - 143 * mm, '从业务现场到 AI 系统交付')
             c.setFont('Book', 9)
-            for i, line in enumerate(['认识 FDE / 技术原理 / 交付实务 / 完整项目', '按章阅读 · 27 章 · 原创工程示例与公开来源']):
+            for i, line in enumerate(['认识 FDE / 技术原理 / 交付实务 / 案例与完整项目', f'按章阅读 · {sum(len(p["chapters"]) for p in META["parts"])} 章 · 原创工程示例与公开来源']):
                 c.drawString(MARGIN, 49 * mm - i * 7 * mm, line)
             c.drawString(MARGIN, 22 * mm, META['edition'])
             c.drawRightString(W - MARGIN, 22 * mm, META['date'])
@@ -307,20 +307,20 @@ def build_pdf():
     reader = PdfReader(OUT / 'FDE橙皮书.pdf')
     report = {'pages': len(reader.pages), 'chapter_pages': doc.chapter_pages,
               'chapter_count': sum(len(p['chapters']) for p in META['parts']),
-              'characters': sum(len((BOOK / f).read_text()) for p in META['parts'] for f in p['chapters'])}
-    (QA / 'build-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
+              'characters': sum(len((BOOK / f).read_text(encoding='utf-8')) for p in META['parts'] for f in p['chapters'])}
+    (QA / 'build-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     sources = [BOOK / META['frontmatter'], BOOK / 'book.json', ROOT / 'design/reader-template.html', Path(__file__).resolve()]
     sources += [BOOK / f for p in META['parts'] for f in p['chapters']]
     companion = ROOT / 'examples' / 'material_assistant'
     sources += sorted(companion.glob('*.py')) + sorted(companion.glob('README.md'))
-    hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
-    (OUT / 'edition.json').write_text(json.dumps({**META, **report, 'source_sha256': hashes}, ensure_ascii=False, indent=2))
+    hashes = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
+    (OUT / 'edition.json').write_text(json.dumps({**META, **report, 'source_sha256': hashes}, ensure_ascii=False, indent=2), encoding='utf-8')
     print(json.dumps(report, ensure_ascii=False))
 
 
 def build_html():
     nav = ['<a href="#home" class="home-link">封面与总目录</a>', '<a href="#reading">阅读说明</a>']
-    articles = [f'<article id="reading" hidden>{MD.render((BOOK / META["frontmatter"]).read_text())}</article>']
+    articles = [f'<article id="reading" hidden>{MD.render((BOOK / META["frontmatter"]).read_text(encoding="utf-8"))}</article>']
     contents = []
     all_chapters = [(name, part['title']) for part in META['parts'] for name in part['chapters']]
     for part in META['parts']:
@@ -336,7 +336,7 @@ def build_html():
             prev = 'reading' if index == 0 else f'ch-{all_chapters[index - 1][0][:2]}'
             nxt = 'home' if index == len(all_chapters) - 1 else f'ch-{all_chapters[index + 1][0][:2]}'
             label = '返回总目录' if nxt == 'home' else '下一章 →'
-            tokens = MD.parse((BOOK / name).read_text())
+            tokens = MD.parse((BOOK / name).read_text(encoding='utf-8'))
             local_items = []
             for pos, token in enumerate(tokens):
                 if token.type == 'heading_open' and token.tag == 'h2':
@@ -351,16 +351,16 @@ def build_html():
                 content = content[:end] + contents_html + content[end:]
             articles.append(f'<article id="{key}" hidden><p class="eyebrow">{html.escape(part["title"])}</p>{content}<nav class="chapter-nav" aria-label="章节导航"><a href="#{prev}">← 上一章</a><a href="#{nxt}">{label}</a></nav></article>')
         contents.append('</ol></section>')
-    template = (ROOT / 'design' / 'reader-template.html').read_text()
+    template = (ROOT / 'design' / 'reader-template.html').read_text(encoding='utf-8')
     for key, value in {'NAV': ''.join(nav), 'ARTICLES': ''.join(articles), 'CONTENTS': ''.join(contents), 'EDITION': META['edition'], 'DATE': META['date']}.items():
         template = template.replace('{{' + key + '}}', value)
-    (OUT / 'FDE橙皮书.html').write_text(template)
+    (OUT / 'FDE橙皮书.html').write_text(template, encoding='utf-8')
     toc_lines = ['# FDE橙皮书目录', '', '[阅读说明](00-阅读说明.md)', '']
     for part in META['parts']:
         toc_lines += ['## ' + part['title'], '', part['description'], '']
         toc_lines += [f'- [{title_of(f)}]({f})' for f in part['chapters']]
         toc_lines += ['']
-    (BOOK / '目录.md').write_text('\n'.join(toc_lines))
+    (BOOK / '目录.md').write_text('\n'.join(toc_lines), encoding='utf-8')
 
 
 if __name__ == '__main__':

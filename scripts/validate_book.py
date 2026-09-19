@@ -6,16 +6,17 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-meta = json.loads((ROOT / 'book/book.json').read_text())
+meta = json.loads((ROOT / 'book/book.json').read_text(encoding='utf-8'))
 files = [f for part in meta['parts'] for f in part['chapters']]
 assert len(meta['parts']) == 4
-assert len(files) == len(set(files)) == 27
-assert [int(f[:2]) for f in files] == list(range(1, 28))
-toc = (ROOT / 'book/目录.md').read_text()
-readme = (ROOT / 'README.md').read_text()
-reader = (ROOT / 'dist/FDE橙皮书.html').read_text()
+chapter_count = len(files)
+assert chapter_count == len(set(files))
+assert [int(f[:2]) for f in files] == list(range(1, chapter_count + 1))
+toc = (ROOT / 'book/目录.md').read_text(encoding='utf-8')
+readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+reader = (ROOT / 'dist/FDE橙皮书.html').read_text(encoding='utf-8')
 for number, filename in enumerate(files, 1):
-    text = (ROOT / 'book' / filename).read_text()
+    text = (ROOT / 'book' / filename).read_text(encoding='utf-8')
     heading = text.splitlines()[0][2:]
     assert text.startswith(f'# 第 {number} 章'), filename
     assert filename in toc and filename in readme, filename
@@ -36,26 +37,26 @@ for number, filename in enumerate(files, 1):
             assert marker in text, (filename, marker)
 assert '知识库' not in readme.splitlines()[0]
 assert (ROOT / 'dist/FDE橙皮书.pdf').stat().st_size > 100000
-edition = json.loads((ROOT / 'dist/edition.json').read_text())
+edition = json.loads((ROOT / 'dist/edition.json').read_text(encoding='utf-8'))
 assert edition['title'] == meta['title'] and edition['chapter_count'] == len(files)
 expected_sources = ['book/' + f for f in files] + ['book/' + meta['frontmatter'], 'book/book.json', 'design/reader-template.html', 'scripts/build_edition.py']
 companion = ROOT / 'examples/material_assistant'
-expected_sources += [str(p.relative_to(ROOT)) for p in sorted(companion.glob('*.py')) + sorted(companion.glob('README.md'))]
+expected_sources += [p.relative_to(ROOT).as_posix() for p in sorted(companion.glob('*.py')) + sorted(companion.glob('README.md'))]
 assert set(expected_sources) == set(edition['source_sha256'])
 for source, digest in edition['source_sha256'].items():
     assert hashlib.sha256((ROOT / source).read_bytes()).hexdigest() == digest, f'Rebuild edition after changing {source}'
 try:
     from pypdf import PdfReader
 except ImportError:
-    print('OK: 27 chapters, 4 parts, Markdown/README/HTML aligned; install pypdf for PDF checks')
+    print(f'OK: {chapter_count} chapters, 4 parts, Markdown/README/HTML aligned; install pypdf for PDF checks')
 else:
     pdf = PdfReader(ROOT / 'dist/FDE橙皮书.pdf')
     assert len(pdf.pages) == edition['pages']
-    assert 185 <= len(pdf.pages) <= 220, f'Book target around 200 pages; got {len(pdf.pages)}'
+    assert 185 <= len(pdf.pages) <= 260, f'Book target around 200 pages; got {len(pdf.pages)}'
     for filename in files:
         key = 'ch-' + filename[:2]
         index = edition['chapter_pages'][key] - 1
-        heading = (ROOT / 'book' / filename).read_text().splitlines()[0][2:]
+        heading = (ROOT / 'book' / filename).read_text(encoding='utf-8').splitlines()[0][2:]
         normalize = lambda value: re.sub(r'\s+', '', value)
         assert normalize(heading) in normalize(pdf.pages[index].extract_text()), filename
     def flatten(items):
@@ -63,11 +64,12 @@ else:
             if isinstance(item, list): yield from flatten(item)
             else: yield item
     bookmarks = list(flatten(pdf.outline))
-    section_count = sum(len(re.findall(r'^## ', (ROOT / 'book' / f).read_text(), re.M)) for f in files + [meta['frontmatter']])
-    assert len(bookmarks) == 32 + section_count, len(bookmarks)
+    section_count = sum(len(re.findall(r'^## ', (ROOT / 'book' / f).read_text(encoding='utf-8'), re.M)) for f in files + [meta['frontmatter']])
+    part_count = len(meta['parts'])
+    assert len(bookmarks) == (1 + part_count + chapter_count) + section_count, len(bookmarks)
     for item in bookmarks:
         assert 0 <= pdf.get_destination_page_number(item) < len(pdf.pages)
     links = [a.get_object() for p in pdf.pages for a in p.get('/Annots', [])]
     assert sum(a.get('/Subtype') == '/Link' for a in links) >= 60
     assert '\ufffd' not in ''.join(p.extract_text() for p in pdf.pages)
-    print(f'OK: 27 chapters, 4 parts, {len(pdf.pages)} PDF pages, {len(bookmarks)} bookmarks, {len(links)} links')
+    print(f'OK: {chapter_count} chapters, 4 parts, {len(pdf.pages)} PDF pages, {len(bookmarks)} bookmarks, {len(links)} links')

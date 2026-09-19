@@ -1,0 +1,49 @@
+{
+  "queried_at": "2026-09-19",
+  "query": "FDE",
+  "result_pages": 13,
+  "result_records": 1274,
+  "screening_note": "逐页检索全部结果后，优先选择包含具体业务现场、商单过程或驻场交付叙述的材料。活动通知、概念讨论、课程推广和只有标题的线索不扩写为案例。前三篇回读公开飞书正文，第四篇只使用官网可见导读。",
+  "case_articles": [
+    {
+      "chapter": 28,
+      "author": "潘达",
+      "title": "FDE 在企业 AI 落地的碰撞、方法与真实案例",
+      "topic_id": "14425558442428542",
+      "published_at": "2026-08-23",
+      "website_url": "https://aipoju.com/topic-details/14425558442428542",
+      "public_document_url": "https://fcnubuhvffh5.feishu.cn/wiki/X7scwWN1BiWF2lkQEnscC1Oln9d",
+      "evidence_limit": "作者陈述；无客户审计、合同或完整架构"
+    },
+    {
+      "chapter": 29,
+      "author": "凡人",
+      "title": "5 万 FDE 商单实践：从需求到交付",
+      "topic_id": "45548825414152218",
+      "published_at": "2026-09-02",
+      "website_url": "https://aipoju.com/topic-details/45548825414152218",
+      "public_document_url": "https://my.feishu.cn/wiki/Ix4UwGPbzikeP8khlITcVechnvc",
+      "evidence_limit": "金额和经历为作者自述；无合同、回款或客户指标"
+    },
+    {
+      "chapter": 30,
+      "author": "小林",
+      "title": "企业级六位数 FDE 商单详解",
+      "topic_id": "55521154242142554",
+      "published_at": "2026-08-31",
+      "website_url": "https://aipoju.com/topic-details/55521154242142554",
+      "public_document_url": "https://my.feishu.cn/wiki/AcLZwC18MiJEE1kZf6XclnwWnWb",
+      "evidence_limit": "金额、佣金和利润为作者自述；无客户系统或财务审计"
+    },
+    {
+      "chapter": 31,
+      "author": "一只阿木木",
+      "title": "30 天五金厂 FDE 交付日记",
+      "topic_id": "45548852824524448",
+      "published_at": "2026-09-01",
+      "website_url": "https://aipoju.com/topic-details/45548852824524448",
+      "public_document_url": null,
+      "evidence_limit": "只能核对官网导读；未采用搜索摘要中的架构、百分比或停机结果"
+    }
+  ]
+}
